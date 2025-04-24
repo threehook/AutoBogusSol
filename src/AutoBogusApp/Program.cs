@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 using AutoBogus;
 using AutoBogusApp.DataGeneration;
 using AutoBogusApp.Vum;
