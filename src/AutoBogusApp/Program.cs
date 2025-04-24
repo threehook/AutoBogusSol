@@ -14,8 +14,8 @@ public class Program
         AutoFaker.Configure(builder => { builder.WithLocale("nl"); });
 
         // Configure the faker
-        var vacatureFaker = new AutoFakerExtensions.CustomAutoFaker<MPVacatureMatch>();
-        AutoFakerExtensions.ApplyCustomAttributeRules<MPVacatureMatch>(vacatureFaker);
+        var vacatureFaker = new AutoFakerExtensions.CustomAutoFaker<Vacature>();
+        AutoFakerExtensions.ApplyCustomAttributeRules<Vacature>(vacatureFaker);
         
         // Generate data
         var vacature = vacatureFaker.Generate();       

@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Reflection;
-using AutoBogus;
 using Bogus;
 
 namespace AutoBogusApp.Vum;
@@ -44,20 +41,11 @@ public class Word : Attribute, ICustomAttributeGenerator
 }
 
 [AttributeUsage(AttributeTargets.Property)]
-public class RestrictedLengthString : Attribute, ICustomAttributeGenerator
+public class RestrictedLengthString(int minLength, int maxLength) : Attribute, ICustomAttributeGenerator
 {
-    private readonly int _minLength;
-    private readonly int _maxLength;
-    
-    public RestrictedLengthString(int minLength, int maxLength)
-    {
-        _minLength = minLength;
-        _maxLength = maxLength;
-    }    
-    
     public object Generate(Faker faker, object parentObject)
     {
-        int length = faker.Random.Int(_minLength, _maxLength);
+        int length = faker.Random.Int(minLength, maxLength);
         return faker.Random.String2(length);
     }
 }
@@ -75,7 +63,7 @@ public class Sentence : Attribute, ICustomAttributeGenerator
 [AttributeUsage(AttributeTargets.Property)]
 public class UuidHyphenated : Attribute, ICustomAttributeGenerator
 {
-    // Generate a formatted date without requiring a format parameter
+    // Generate a hyphenated uuid
     public object Generate(Faker faker, object parentObject)
     {
         return faker.Random.Guid().ToString("D");
@@ -97,15 +85,11 @@ public class FormattedDateAttribute : Attribute, ICustomAttributeGenerator
     }
 }
 
-public class OneOfAttribute : Attribute, ICustomAttributeGenerator
+public class OneOfAttribute(params object[] values) : Attribute, ICustomAttributeGenerator
 {
-    private readonly object[] _values;
+    private readonly object[] _values = values ?? throw new ArgumentNullException(nameof(values));
 
     // Constructor to accept possible values
-    public OneOfAttribute(params object[] values)
-    {
-        _values = values ?? throw new ArgumentNullException(nameof(values));
-    }
 
     public object Generate(Faker faker, object instance)
     {
@@ -167,22 +151,14 @@ public class CodeTaal : Attribute, ICustomAttributeGenerator
 }
 
 [AttributeUsage(AttributeTargets.Property)]
-public class Email : Attribute, ICustomAttributeGenerator
+public class Email(bool asList = false, int maxLength = 3) : Attribute, ICustomAttributeGenerator
 {
-    private readonly bool _asList;
-    private readonly int _maxLength;
-
-    public Email(bool asList = false, int maxLength = 3)
-    {
-        _asList = asList;
-        _maxLength = maxLength;
-    }
     public object Generate(Faker faker, object parentObject)
     {
-        if (_asList)
+        if (asList)
         {
             // Generate a list of emails
-            var total = faker.Random.Int(1, _maxLength);
+            var total = faker.Random.Int(1, maxLength);
             List<string> emails = new List<string>();
             for (int i = 0; i < total; i++)
             {
@@ -205,22 +181,14 @@ public class Email : Attribute, ICustomAttributeGenerator
 }
 
 [AttributeUsage(AttributeTargets.Property)]
-public class DutchPhoneNumber : Attribute, ICustomAttributeGenerator
+public class DutchPhoneNumber(bool asList = false, int maxLength = 3) : Attribute, ICustomAttributeGenerator
 {
-    private readonly bool _asList;
-    private readonly int _maxLength;
-
-    public DutchPhoneNumber(bool asList = false, int maxLength = 3)
-    {
-        _asList = asList;
-        _maxLength = maxLength;
-    }
     public object Generate(Faker faker, object parentObject)
     {
-        if (_asList)
+        if (asList)
         {
             // Generate a list of random E.164 formatted Dutch phone numbers
-            var total = faker.Random.Int(1, _maxLength);
+            var total = faker.Random.Int(1, maxLength);
             List<string> phoneNumbers = new List<string>();
             for (int i = 0; i < total; i++)
             {
@@ -245,22 +213,14 @@ public class DutchPhoneNumber : Attribute, ICustomAttributeGenerator
 }
 
 [AttributeUsage(AttributeTargets.Property)]
-public class OneOfBeroepsnaam : Attribute, ICustomAttributeGenerator
+public class OneOfBeroepsnaam(bool asList = false, int maxLength = 3) : Attribute, ICustomAttributeGenerator
 {
-    private readonly bool _asList;
-    private readonly int _maxLength;
-
-    public OneOfBeroepsnaam(bool asList = false, int maxLength = 3)
-    {
-        _asList = asList;
-        _maxLength = maxLength;
-    }    
     public object Generate(Faker faker, object parentObject)
     {
-        if (_asList)
+        if (asList)
         {
             // Generate a list of beroepsnaam objects
-            var total = faker.Random.Int(1, _maxLength);
+            var total = faker.Random.Int(1, maxLength);
             List<Beroepsnaam> beroepsnamen = new List<Beroepsnaam>();
             for (int i = 0; i < total; i++)
             {
