@@ -440,7 +440,7 @@ namespace AutoBogusApp.Test
                             "Overtuigen en beïnvloeden", "Presenteren", "Formuleren en rapporteren",
                             "Vakdeskundigheid toepassen", "Materialen en middelen inzetten", "Analyseren",
                             "Onderzoeken",
-                            "Creeren en innoveren", "Leren", "Plannen en organiseren",
+                            "Creëren en innoveren", "Leren", "Plannen en organiseren",
                             "Op de behoeften en verwachtingen van de klant richten", "Kwaliteit leveren",
                             "Instructies en procedures opvolgen", "Omgaan met verandering en aanpassen",
                             "Met druk en tegenslag omgaan", "Gedrevenheid en ambitie tonen",
