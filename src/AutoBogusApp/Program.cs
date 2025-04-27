@@ -1,36 +1,45 @@
-﻿using System;
+﻿using System.Text.Encodings.Web;
 using System.Text.Json;
-using AutoBogus;
+using System.Text.Json.Serialization;
 using AutoBogusApp.DataGeneration;
-using AutoBogusApp.Vum;
 
-namespace AutoBogusApp;
+namespace BugusApp;
+
+public static class JsonConfig
+{
+    public static readonly JsonSerializerOptions DefaultOptions = new()
+    {
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        WriteIndented = true,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+    };
+}
 
 public class Program
 {
-
+    // static void Main(string[] args)
+    // {
+    //     Faker f = new Faker();
+    //     var name = Generic.GenerateName(f, 3, 40);
+    //     Console.WriteLine(name);
+    // }
+    
     static void Main(string[] args)
     {
-        // Set global AutoBogus config to use Dutch locale
-        AutoFaker.Configure(builder => { builder.WithLocale("nl"); });
-
-        // Configure the faker
-        var vacatureFaker = new AutoFakerExtensions.CustomAutoFaker<Vacature>();
-        AutoFakerExtensions.ApplyCustomAttributeRules<Vacature>(vacatureFaker);
+        // VacatureFaker faker = new VacatureFaker();
+        // var vacature = faker.FakeVacature();
         
-        // Generate data
-        var vacature = vacatureFaker.Generate();       
-
-        /*var werkzoekendeFaker = new AutoFakerExtensions.CustomAutoFaker<Werkzoekende>();
-        AutoFakerExtensions.ApplyCustomAttributeRules<Werkzoekende>(werkzoekendeFaker);*/
+        // VacatureFaker faker = new VacatureFaker();
+        // var mpVacature = faker.FakeMpVacatureMatch();
         
-        // Generate data
-        // var werkzoekende = werkzoekendeFaker.Generate();
+        WerkzoekendeFaker faker = new WerkzoekendeFaker();
+        var werkzoekende = faker.FakeWerkzoekende();        
         
-        
-        string json = JsonSerializer.Serialize(vacature, JsonConfig.DefaultOptions);
+        // Serialize to JSON
+        //string json = JsonSerializer.Serialize(vacature, JsonConfig.DefaultOptions);
+        //string json = JsonSerializer.Serialize(mpVacature, JsonConfig.DefaultOptions);
+        string json = JsonSerializer.Serialize(werkzoekende, JsonConfig.DefaultOptions);
         // string json = JsonSerializer.Serialize(werkzoekende, JsonConfig.DefaultOptions);
-        
         Console.WriteLine(json);
     }
 }

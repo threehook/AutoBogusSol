@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace AutoBogusApp.Vum
 {
@@ -10,11 +8,9 @@ namespace AutoBogusApp.Vum
         public ArbeidsVoorwaarden? ArbeidsVoorwaarden { get; set; }
 
         [JsonPropertyName("beroep")]
-        [OneOfBeroepsnaam]
         public Beroepsnaam? Beroep { get; set; }
        
         [JsonPropertyName("codeWerkEnDenkniveauMinimaal")]
-        [OneOf("0", "1", "2", "3", "4", "5", "6", "7")]
         public string? CodeWerkEnDenkniveauMinimaal { get; set; }
 
         [JsonPropertyName("contractvorm")]
@@ -23,6 +19,9 @@ namespace AutoBogusApp.Vum
         [JsonPropertyName("cursus")]
         public List<CursusVacature>? Cursus { get; set; }
 
+        [JsonPropertyName("mobiliteit")]
+        public MobiliteitVacature? Mobiliteit { get; set; }        
+        
         [JsonPropertyName("flexibiliteit")]
         public Flexibiliteit? Flexibiliteit { get; set; }
 
@@ -30,11 +29,9 @@ namespace AutoBogusApp.Vum
         public List<Gedragscompetentie>? Gedragscompetentie { get; set; }
 
         [JsonPropertyName("idVacature")]
-        [UuidHyphenated]
         public string? IdVacature { get; set; }
 
         [JsonPropertyName("indicatieLdrRegistratie")]
-        [OneOf(1, 2)]
         public int? IndicatieLdrRegistratie { get; set; }
 
         [JsonPropertyName("opleiding")]
@@ -47,7 +44,6 @@ namespace AutoBogusApp.Vum
         public SectorBeroepsEnBedrijfsleven? Sector { get; set; }
 
         [JsonPropertyName("sluitingsdatumVacature")]
-        [FormattedDate]
         public string? SluitingsdatumVacature { get; set; }
 
         [JsonPropertyName("sollicitatiewijze")]
@@ -78,11 +74,9 @@ namespace AutoBogusApp.Vum
         public ArbeidsVoorwaarden? ArbeidsVoorwaarden { get; set; }
 
         [JsonPropertyName("beroep")]
-        [OneOfBeroepsnaam]
         public Beroepsnaam? Beroep { get; set; }
        
         [JsonPropertyName("codeWerkEnDenkniveauMinimaal")]
-        [OneOf("0", "1", "2", "3", "4", "5", "6", "7")]
         public string? CodeWerkEnDenkniveauMinimaal { get; set; }
 
         [JsonPropertyName("contractvorm")]
@@ -98,22 +92,18 @@ namespace AutoBogusApp.Vum
         public List<Gedragscompetentie>? Gedragscompetentie { get; set; }
 
         [JsonPropertyName("idVacature")]
-        [UuidHyphenated]
         public string? IdVacature { get; set; }
 
         [JsonPropertyName("indicatieLdrRegistratie")]
-        [OneOf(1, 2)]
         public int? IndicatieLdrRegistratie { get; set; }
 
         [JsonPropertyName("naamVacature")]
         public string? NaamVacature { get; set; }
 
         [JsonPropertyName("nummerVacature")]
-        [IntRange(1000, 9999, true)]
         public string? NummerVacature { get; set; }
 
         [JsonPropertyName("omschrijvingVacature")]
-        [Sentence]
         public string? OmschrijvingVacature { get; set; }
 
         [JsonPropertyName("opleiding")]
@@ -126,7 +116,6 @@ namespace AutoBogusApp.Vum
         public SectorBeroepsEnBedrijfsleven? Sector { get; set; }
 
         [JsonPropertyName("sluitingsdatumVacature")]
-        [FormattedDate]
         public string? SluitingsdatumVacature { get; set; }
 
         [JsonPropertyName("sollicitatiewijze")]
@@ -155,19 +144,15 @@ namespace AutoBogusApp.Vum
     public class ArbeidsVoorwaarden
     {
         [JsonPropertyName("datumAanvangWerkzaamheden")]
-        [FormattedDate]
         public string? DatumAanvangWerkzaamheden { get; set; }
 
         [JsonPropertyName("datumEindeWerkzaamheden")]
-        [FormattedDate]        
         public string? DatumEindeWerkzaamheden { get; set; }
 
         [JsonPropertyName("omschrijvingArbeidsvoorwaarden")]
-        [Sentence]
         public string? OmschrijvingArbeidsvoorwaarden { get; set; }
 
         [JsonPropertyName("salarisIndicatie")]
-        [IntRangeAttribute(1000, 10000, true)]
         public string? SalarisIndicatie { get; set; }
     }
 
@@ -175,11 +160,9 @@ namespace AutoBogusApp.Vum
     public class Sollicitatiewijze
     {
         [JsonPropertyName("codeSollicitatiewijze")]
-        [OneOf("1", "2", "3", "4")]
         public string? CodeSollicitatiewijze { get; set; }
 
         [JsonPropertyName("webadres")]
-        [WebAddress]
         public Webadres? Webadres { get; set; }
     }
 
@@ -211,15 +194,12 @@ namespace AutoBogusApp.Vum
         public AdresHoudingAdres? Adres { get; set; }
 
         [JsonPropertyName("codeFunctieAdres")]
-        [OneOf("B", "W", "C", "L", "A", "V", "E")]
         public string? CodeFunctieAdres { get; set; }
 
         [JsonPropertyName("datumAanvangAdres")]
-        [FormattedDate]
         public string? DatumAanvangAdres { get; set; }
 
         [JsonPropertyName("datumEindeAdres")]
-        [FormattedDate]
         public string? DatumEindeAdres { get; set; }
 
         public AdresHoudingAdres? GetAdres() => Adres;
@@ -233,8 +213,6 @@ namespace AutoBogusApp.Vum
 
         [JsonPropertyName("adresBuitenland")]
         public AdresBuitenland? AdresBuitenland { get; set; }
-
-        public AdresNederland? GetAdresNederland() => AdresNederland;
     }
 
     // AdresNederland model
@@ -244,39 +222,30 @@ namespace AutoBogusApp.Vum
         public AdresNederlandAdresDetails? AdresDetails { get; set; }
 
         [JsonPropertyName("codeGemeente")]
-        [RestrictedLengthString(4, 4)]
         public string? CodeGemeente { get; set; }
 
         [JsonPropertyName("district")]
-        [RestrictedLengthString(24, 24)]
         public string? District { get; set; }
 
         [JsonPropertyName("gemeentedeel")]
-        [RestrictedLengthString(4, 4)]
         public string? Gemeentedeel { get; set; }
 
         [JsonPropertyName("gemeentenaam")]
-        [Name]
         public string? Gemeentenaam { get; set; }
 
         [JsonPropertyName("identificatiecodeNummeraanduiding")]
-        [RestrictedLengthString(2, 2)]
         public string? IdentificatiecodeNummeraanduiding { get; set; }
 
         [JsonPropertyName("identificatiecodeVerblijfplaats")]
-        [RestrictedLengthString(2, 2)]
         public string? IdentificatiecodeVerblijfplaats { get; set; }
 
         [JsonPropertyName("locatieomschrijving")]
-        [Sentence]
         public string? Locatieomschrijving { get; set; }
 
         [JsonPropertyName("postcode")]
-        [Postcode]
         public string? Postcode { get; set; }
 
         [JsonPropertyName("woonplaatsnaam")]
-        [Name]
         public string? Woonplaatsnaam { get; set; }
     }
 
@@ -297,7 +266,6 @@ namespace AutoBogusApp.Vum
     public class Antwoordnummeradres
     {
         [JsonPropertyName("antwoordnummer")]
-        [IntRange(1000, 10000)]
         public int? Antwoordnummer { get; set; }
     }
 
@@ -305,7 +273,6 @@ namespace AutoBogusApp.Vum
     public class Postbusadres
     {
         [JsonPropertyName("postbusnummer")]
-        [IntRange(1000, 10000)]
         public int? Postbusnummer { get; set; }
     }
 
@@ -313,35 +280,27 @@ namespace AutoBogusApp.Vum
     public class Straatadres
     {
         [JsonPropertyName("aanduidingBijHuisnummer")]
-        [RestrictedLengthString(1, 1)]
         public string? AanduidingBijHuisnummer { get; set; }
 
         [JsonPropertyName("huisletter")]
-        [RestrictedLengthString(1, 1)]
         public string? Huisletter { get; set; }
 
         [JsonPropertyName("huisnummer")]
-        [IntRangeAttribute(1, 100, false)]
         public int? Huisnummer { get; set; }
 
         [JsonPropertyName("huisnummertoevoeging")]
-        [RestrictedLengthString(1, 1)]
         public string? Huisnummertoevoeging { get; set; }
 
         [JsonPropertyName("naamOpenbareRuimte")]
-        [Name]
         public string? NaamOpenbareRuimte { get; set; }
 
         [JsonPropertyName("straatnaam")]
-        [Name]
         public string? Straatnaam { get; set; }
 
         [JsonPropertyName("woonbootverwijzing")]
-        [OneOf("AB")]
         public string? Woonbootverwijzing { get; set; }
 
         [JsonPropertyName("woonwagenverwijzing")]
-        [OneOf("WW")]
         public string? Woonwagenverwijzing { get; set; }
     }
 
@@ -352,27 +311,21 @@ namespace AutoBogusApp.Vum
         public AdresBuitenlandAdresDetailsBuitenland? AdresDetailsBuitenland { get; set; }
 
         [JsonPropertyName("landencodeIso")]
-        [RestrictedLengthString(1, 2)]
         public string? LandencodeIso { get; set; }
 
         [JsonPropertyName("landsnaam")]
-        [Name]
         public string? Landsnaam { get; set; }
 
         [JsonPropertyName("locatieomschrijvingBuitenland")]
-        [RestrictedLengthString(5, 10)]
         public string? LocatieomschrijvingBuitenland { get; set; }
 
         [JsonPropertyName("postcodeBuitenland")]
-        [Postcode]
         public string? PostcodeBuitenland { get; set; }
 
         [JsonPropertyName("regionaamBuitenland")]
-        [Name]
         public string? RegionaamBuitenland { get; set; }
 
         [JsonPropertyName("woonplaatsnaamBuitenland")]
-        [Name]
         public string? WoonplaatsnaamBuitenland { get; set; }
     }
 
@@ -390,11 +343,9 @@ namespace AutoBogusApp.Vum
     public class StraatadresBuitenland
     {
         [JsonPropertyName("huisnummerBuitenland")]
-        [RestrictedLengthString(1,9)]
         public string? HuisnummerBuitenland { get; set; }
 
         [JsonPropertyName("straatnaamBuitenland")]
-        [Name]
         public string? StraatnaamBuitenland { get; set; }
     }
 
@@ -402,7 +353,6 @@ namespace AutoBogusApp.Vum
     public class PostbusadresBuitenland
     {
         [JsonPropertyName("postbusnummerBuitenland")]
-        [RestrictedLengthString(1, 9)]
         public string? PostbusnummerBuitenland { get; set; }
     }
 
@@ -410,7 +360,6 @@ namespace AutoBogusApp.Vum
     public class WerkervaringVacature
     {
         [JsonPropertyName("aantalJarenWerkzaamInBeroep")]
-        [IntRangeAttribute(0, 100, false)]
         public int? AantalJarenWerkzaamInBeroep { get; set; }
     }
 
@@ -418,15 +367,12 @@ namespace AutoBogusApp.Vum
     public class MPOpleidingVacature
     {
         [JsonPropertyName("codeNiveauOpleiding")]
-        [OneOf(1, 2, 3, 4, 5, 6, 9)]
         public int? CodeNiveauOpleiding { get; set; }
 
         [JsonPropertyName("indicatieDiploma")]
-        [OneOf(1, 2, 8)]
         public int? IndicatieDiploma { get; set; }
 
         [JsonPropertyName("opleidingsnaam")]
-        [OneOfMPOpleidingsnaam]
         public MPOpleidingsnaam? Opleidingsnaam { get; set; }
     }    
     
@@ -434,15 +380,12 @@ namespace AutoBogusApp.Vum
     public class OpleidingVacature
     {
         [JsonPropertyName("codeNiveauOpleiding")]
-        [OneOf(1, 2, 3, 4, 5, 6, 9)]
         public int? CodeNiveauOpleiding { get; set; }
 
         [JsonPropertyName("indicatieDiploma")]
-        [OneOf(1, 2, 8)]
         public int? IndicatieDiploma { get; set; }
 
         [JsonPropertyName("opleidingsnaam")]
-        [OneOfOpleidingsnaam]
         public Opleidingsnaam? Opleidingsnaam { get; set; }
     }
 
