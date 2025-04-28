@@ -7,6 +7,43 @@ using static AutoBogusApp.DataGeneration.CommonFaker;
 
 namespace AutoBogusApp.Test
 {
+    public class MpWerkzoekendeMatchGeneratorTests
+    {
+        [Test]
+        public void FakeMPWerkzoekendeMatch_ShouldGenerateMPWerkzoekendeMatchWithAllNestedObjects()
+        {
+            // Arrange
+            WerkzoekendeFaker faker = new WerkzoekendeFaker();
+
+            // Act
+            var mpWerkzoekendeMatch = faker.FakeMpWerkzoekendeMatch();
+
+            // Assert
+            Assert.That(mpWerkzoekendeMatch, Is.Not.Null);
+
+            // Check that nested objects are not null
+            Assert.That(mpWerkzoekendeMatch.Arbeidsmarktkwalificatie, Is.Not.Null);
+            Assert.That(mpWerkzoekendeMatch.Bemiddelingsberoep, Is.Not.Null);
+            Assert.That(mpWerkzoekendeMatch.Contractvorm, Is.Not.Null);
+            Assert.That(mpWerkzoekendeMatch.Flexibiliteit, Is.Not.Null);
+            Assert.That(mpWerkzoekendeMatch.IdWerkzoekende, Is.Not.Null);
+            Assert.That(mpWerkzoekendeMatch.IndicatieBeschikbaarheidContactgegevens, Is.Not.Null);
+            Assert.That(mpWerkzoekendeMatch.IndicatieLdrRegistratie, Is.Not.Null);
+            Assert.That(mpWerkzoekendeMatch.Mobiliteit, Is.Not.Null);
+            Assert.That(mpWerkzoekendeMatch.Sector, Is.Not.Null);
+            Assert.That(mpWerkzoekendeMatch.Vervoermiddel, Is.Not.Null);
+            Assert.That(mpWerkzoekendeMatch.Voorkeursland, Is.Not.Null);
+            Assert.That(mpWerkzoekendeMatch.Werktijden, Is.Not.Null);            
+
+            // Check that lists have elements
+            Assert.That(mpWerkzoekendeMatch.Bemiddelingsberoep, Is.Not.Empty);
+            Assert.That(mpWerkzoekendeMatch.Contractvorm, Is.Not.Empty);
+            Assert.That(mpWerkzoekendeMatch.Sector, Is.Not.Empty);
+            Assert.That(mpWerkzoekendeMatch.Vervoermiddel, Is.Not.Empty);
+            Assert.That(mpWerkzoekendeMatch.Voorkeursland, Is.Not.Empty);
+        }
+    }    
+    
     public class WerkzoekendeGeneratorTests
     {
         [Test]
@@ -48,59 +85,6 @@ namespace AutoBogusApp.Test
             Assert.That(werkzoekende.Telefoonnummer, Is.Not.Empty);
             Assert.That(werkzoekende.Voorkeursland, Is.Not.Empty);
             Assert.That(werkzoekende.Webadres, Is.Not.Empty);
-        }
-    }
-
-    public class VacatureGeneratorTests
-    {
-        [Test]
-        public void FakeVacature_ShouldGenerateVacatureWithAllNestedObjects()
-        {
-            // Arrange
-            VacatureFaker faker = new VacatureFaker();
-
-            // Act
-            var vacture = faker.FakeVacature();
-
-            // Assert
-            Assert.That(vacture, Is.Not.Null);
-            
-            // Check that nested objects are not null
-            Assert.That(vacture.ArbeidsVoorwaarden, Is.Not.Null);
-            Assert.That(vacture.Beroep, Is.Not.Null);
-            Assert.That(vacture.CodeWerkEnDenkniveauMinimaal, Is.Not.Null);
-            Assert.That(vacture.Contractvorm, Is.Not.Null);
-            Assert.That(vacture.Cursus, Is.Not.Null);
-            Assert.That(vacture.Flexibiliteit, Is.Not.Null);
-            Assert.That(vacture.Gedragscompetentie, Is.Not.Null);
-            Assert.That(vacture.IdVacature, Is.Not.Null);
-            Assert.That(vacture.IndicatieLdrRegistratie, Is.Not.Null);
-            Assert.That(vacture.NaamVacature, Is.Not.Null);
-            Assert.That(vacture.NummerVacature, Is.Not.Null);
-            Assert.That(vacture.OmschrijvingVacature, Is.Not.Null);
-            Assert.That(vacture.Opleiding, Is.Not.Null);
-            Assert.That(vacture.Rijbewijs, Is.Not.Null);
-            Assert.That(vacture.Sector, Is.Not.Null);
-            Assert.That(vacture.SluitingsdatumVacature, Is.Not.Null);
-            Assert.That(vacture.Sollicitatiewijze, Is.Not.Null);                   
-            Assert.That(vacture.Taalbeheersing, Is.Not.Null);
-            Assert.That(vacture.Vakvaardigheid, Is.Not.Null);
-            Assert.That(vacture.Vervoermiddel, Is.Not.Null);
-            Assert.That(vacture.Werkervaring, Is.Not.Null);
-            Assert.That(vacture.Werkgever, Is.Not.Null);
-            Assert.That(vacture.Werktijden, Is.Not.Null);
-            
-            // Check that lists have elements
-            Assert.That(vacture.Contractvorm, Is.Not.Empty);
-            Assert.That(vacture.Cursus, Is.Not.Empty);
-            Assert.That(vacture.Gedragscompetentie, Is.Not.Empty);
-            Assert.That(vacture.Opleiding, Is.Not.Empty);
-            Assert.That(vacture.Rijbewijs, Is.Not.Empty);
-            Assert.That(vacture.Sollicitatiewijze, Is.Not.Empty);
-            Assert.That(vacture.Taalbeheersing, Is.Not.Empty);
-            Assert.That(vacture.Vakvaardigheid, Is.Not.Empty);
-            Assert.That(vacture.Vervoermiddel, Is.Not.Empty);
-            Assert.That(vacture.Werkervaring, Is.Not.Empty);
         }
     }
 
@@ -153,7 +137,60 @@ namespace AutoBogusApp.Test
             Assert.That(mpVacatureMatch.Vervoermiddel, Is.Not.Empty);
             Assert.That(mpVacatureMatch.Werkervaring, Is.Not.Empty);
         }
-    }    
+    }        
+    
+    public class VacatureGeneratorTests
+    {
+        [Test]
+        public void FakeVacature_ShouldGenerateVacatureWithAllNestedObjects()
+        {
+            // Arrange
+            VacatureFaker faker = new VacatureFaker();
+
+            // Act
+            var vacture = faker.FakeVacature();
+
+            // Assert
+            Assert.That(vacture, Is.Not.Null);
+            
+            // Check that nested objects are not null
+            Assert.That(vacture.ArbeidsVoorwaarden, Is.Not.Null);
+            Assert.That(vacture.Beroep, Is.Not.Null);
+            Assert.That(vacture.CodeWerkEnDenkniveauMinimaal, Is.Not.Null);
+            Assert.That(vacture.Contractvorm, Is.Not.Null);
+            Assert.That(vacture.Cursus, Is.Not.Null);
+            Assert.That(vacture.Flexibiliteit, Is.Not.Null);
+            Assert.That(vacture.Gedragscompetentie, Is.Not.Null);
+            Assert.That(vacture.IdVacature, Is.Not.Null);
+            Assert.That(vacture.IndicatieLdrRegistratie, Is.Not.Null);
+            Assert.That(vacture.NaamVacature, Is.Not.Null);
+            Assert.That(vacture.NummerVacature, Is.Not.Null);
+            Assert.That(vacture.OmschrijvingVacature, Is.Not.Null);
+            Assert.That(vacture.Opleiding, Is.Not.Null);
+            Assert.That(vacture.Rijbewijs, Is.Not.Null);
+            Assert.That(vacture.Sector, Is.Not.Null);
+            Assert.That(vacture.SluitingsdatumVacature, Is.Not.Null);
+            Assert.That(vacture.Sollicitatiewijze, Is.Not.Null);                   
+            Assert.That(vacture.Taalbeheersing, Is.Not.Null);
+            Assert.That(vacture.Vakvaardigheid, Is.Not.Null);
+            Assert.That(vacture.Vervoermiddel, Is.Not.Null);
+            Assert.That(vacture.Werkervaring, Is.Not.Null);
+            Assert.That(vacture.Werkgever, Is.Not.Null);
+            Assert.That(vacture.Werktijden, Is.Not.Null);
+            
+            // Check that lists have elements
+            Assert.That(vacture.Contractvorm, Is.Not.Empty);
+            Assert.That(vacture.Cursus, Is.Not.Empty);
+            Assert.That(vacture.Gedragscompetentie, Is.Not.Empty);
+            Assert.That(vacture.Opleiding, Is.Not.Empty);
+            Assert.That(vacture.Rijbewijs, Is.Not.Empty);
+            Assert.That(vacture.Sollicitatiewijze, Is.Not.Empty);
+            Assert.That(vacture.Taalbeheersing, Is.Not.Empty);
+            Assert.That(vacture.Vakvaardigheid, Is.Not.Empty);
+            Assert.That(vacture.Vervoermiddel, Is.Not.Empty);
+            Assert.That(vacture.Werkervaring, Is.Not.Empty);
+        }
+    }
     
     public class DateGeneratorTests
     {

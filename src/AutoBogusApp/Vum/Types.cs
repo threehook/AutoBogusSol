@@ -217,6 +217,16 @@ namespace AutoBogusApp.Vum
     }
 
     // Vervoermiddel model
+    public class MpVervoermiddel
+    {
+        [JsonPropertyName("indicatieBeschikbaarVoorUitvoeringWerk")]
+        public int? IndicatieBeschikbaarVoorUitvoeringWerk { get; set; }
+
+        [JsonPropertyName("indicatieBeschikbaarVoorWoonWerkverkeer")]
+        public int? IndicatieBeschikbaarVoorWoonWerkverkeer { get; set; }
+    }    
+    
+    // Vervoermiddel model
     public class Vervoermiddel
     {
         [JsonPropertyName("codeVervoermiddel")]

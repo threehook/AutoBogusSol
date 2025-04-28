@@ -9,6 +9,34 @@ public class VacatureFaker
     private const float ShowWeight = 1.0f;
     private const string DateFormat = "yyyy-MM-dd";
         
+    public MPVacatureMatch FakeMpVacatureMatch()
+    {
+        var faker = new Faker<MPVacatureMatch>("nl")
+            .RuleFor(v => v.ArbeidsVoorwaarden, GenerateArbeidsVoorwaarden)
+            .RuleFor(v => v.Beroep, f => f.Random.Bool() ? GenerateBeroepsnaamGecodeerd(f) : GenerateBeroepsnaamOngecodeerd(f))
+            .RuleFor(v => v.CodeWerkEnDenkniveauMinimaal, f => f.Random.Bool(ShowWeight) ? f.Random.Int(0, 7).ToString() : null)
+            .RuleFor(v => v.Contractvorm, GenerateContractvorm)
+            .RuleFor(v => v.Cursus, GenerateCursus)
+            .RuleFor(v => v.Mobiliteit, GenerateMobiliteit)
+            .RuleFor(v => v.Flexibiliteit, GenerateFlexibiliteit)
+            .RuleFor(v => v.IdVacature, f => f.Random.Bool(ShowWeight) ? f.Random.Uuid().ToString() : null)
+            .RuleFor(v => v.Gedragscompetentie, GenerateGedragscompetentie)
+            .RuleFor(v => v.IndicatieLdrRegistratie, f => f.Random.Int(1, 2))
+            .RuleFor(v => v.Opleiding, GenerateMpOpleiding)
+            .RuleFor(v => v.Rijbewijs, GenerateRijbewijs)
+            .RuleFor(v => v.Sector, GenerateSector)
+            .RuleFor(v => v.SluitingsdatumVacature, GenerateDate)
+            .RuleFor(v => v.Sollicitatiewijze, GenerateSollicitatiewijze)
+            .RuleFor(v => v.Taalbeheersing, GenerateTaalbeheersing)
+            .RuleFor(v => v.Vakvaardigheid, GenerateVakvaardigheid)
+            .RuleFor(v => v.Vervoermiddel, GenerateVervoermiddel)
+            .RuleFor(v => v.Werkervaring, GenerateWerkervaring)
+            .RuleFor(v => v.Werkgever, GenerateWerkgever)
+            .RuleFor(v => v.Werktijden, GenerateWerktijden);
+            
+        return faker.Generate();
+    }
+    
     public Vacature FakeVacature()
     {
         var faker = new Faker<Vacature>("nl")
@@ -39,34 +67,6 @@ public class VacatureFaker
         return faker.Generate();
     }
 
-    public MPVacatureMatch FakeMpVacatureMatch()
-    {
-        var faker = new Faker<MPVacatureMatch>("nl")
-            .RuleFor(v => v.ArbeidsVoorwaarden, GenerateArbeidsVoorwaarden)
-            .RuleFor(v => v.Beroep, f => f.Random.Bool() ? GenerateBeroepsnaamGecodeerd(f) : GenerateBeroepsnaamOngecodeerd(f))
-            .RuleFor(v => v.CodeWerkEnDenkniveauMinimaal, f => f.Random.Bool(ShowWeight) ? f.Random.Int(0, 7).ToString() : null)
-            .RuleFor(v => v.Contractvorm, GenerateContractvorm)
-            .RuleFor(v => v.Cursus, GenerateCursus)
-            .RuleFor(v => v.Mobiliteit, GenerateMobiliteit)
-            .RuleFor(v => v.Flexibiliteit, GenerateFlexibiliteit)
-            .RuleFor(v => v.IdVacature, f => f.Random.Bool(ShowWeight) ? f.Random.Uuid().ToString() : null)
-            .RuleFor(v => v.Gedragscompetentie, GenerateGedragscompetentie)
-            .RuleFor(v => v.IndicatieLdrRegistratie, f => f.Random.Int(1, 2))
-            .RuleFor(v => v.Opleiding, GenerateMpOpleiding)
-            .RuleFor(v => v.Rijbewijs, GenerateRijbewijs)
-            .RuleFor(v => v.Sector, GenerateSector)
-            .RuleFor(v => v.SluitingsdatumVacature, GenerateDate)
-            .RuleFor(v => v.Sollicitatiewijze, GenerateSollicitatiewijze)
-            .RuleFor(v => v.Taalbeheersing, GenerateTaalbeheersing)
-            .RuleFor(v => v.Vakvaardigheid, GenerateVakvaardigheid)
-            .RuleFor(v => v.Vervoermiddel, GenerateVervoermiddel)
-            .RuleFor(v => v.Werkervaring, GenerateWerkervaring)
-            .RuleFor(v => v.Werkgever, GenerateWerkgever)
-            .RuleFor(v => v.Werktijden, GenerateWerktijden);
-            
-        return faker.Generate();
-    }    
-    
     private static ArbeidsVoorwaarden GenerateArbeidsVoorwaarden(Faker f)
     {
         return new ArbeidsVoorwaarden
@@ -78,48 +78,22 @@ public class VacatureFaker
         };
     }
 
-    private static List<Contractvorm> GenerateContractvorm(Faker f)
-    {
-        string[] codeTypeArbeidscontractOptions = { "O", "B" };
-        string[] codeTypeOvereenkomstOptions = { "O1", "02", "03", "04" };
-        var properties = new List<Action<Contractvorm>>
-        {
-            c => c.CodeTypeArbeidscontract = f.Random.ArrayElement(codeTypeArbeidscontractOptions),
-            c => c.CodeTypeOvereenkomst = f.Random.ArrayElement(codeTypeOvereenkomstOptions)
-        };
-
-        var results = new List<Contractvorm>();
-
-        // Determine how many properties to enable (1 to all)
-        int count = f.Random.Int(1, properties.Count);
-
-        // Shuffle and take a random selection
-        foreach (var contractvorm  in f.Random.Shuffle(properties).Take(count))
-        {
-            var contract = new Contractvorm();
-            contractvorm(contract);
-            results.Add(contract);
-        }
-
-        return results;
-    }
-
     private static List<CursusVacature> GenerateCursus(Faker f)
     {
-        var cursusFaker = new Bogus.Faker<CursusVacature>()
-            .RuleFor(c => c.NaamCursus, f => $"{f.Commerce.ProductAdjective()} {f.Commerce.Department()}");
-
-        var result = new List<CursusVacature>();
-
-        // Generate random instances with unique seeds
-        for (int i = 0; i < new Random().Next(1, 5); i++)
+        var length = f.Random.Int(min: 1, max: 3);
+        var cursusList = new List<CursusVacature>();
+        for (int i = 0; i < length; i++)
         {
-            Bogus.Randomizer.Seed = new Random(i * DateTime.Now.Millisecond);
-            result.Add(cursusFaker.Generate());
+            var cursus = new CursusVacature()
+            {
+                NaamCursus = GenerateName(f, 3, 120)
+            };
+            cursusList.Add(cursus);
         }
         
-        return result;
-    }
+        return cursusList;
+    }    
+    
 
     private static Opleidingsnaam GenerateOpleidingsnaamGecodeerd(Faker f)
     {
@@ -226,15 +200,6 @@ public class VacatureFaker
         return result;        
     }    
 
-    private static List<Rijbewijs> GenerateRijbewijs(Faker f)
-    {
-        var rijbewijsCodes = new List<string> { "A", "A1", "A2", "AM", "B", "B+", "C1", "C", "D1", "D", "BE", "C1E", "CE", "D1E", "DE", "T" };    
-        var rijbewijsFaker = new Faker<Rijbewijs>()
-            .RuleFor(r => r.CodeSoortRijbewijs, f.Random.ListItem(rijbewijsCodes));
-        
-        return rijbewijsFaker.Generate(f.Random.Int(1, 5));
-    }
-
     private static List<Sollicitatiewijze> GenerateSollicitatiewijze(Faker f)
     {
         var codeSollicitatiewijze = new List<string>{ "1", "2", "3", "4" };
@@ -244,46 +209,6 @@ public class VacatureFaker
             result.Add(new Sollicitatiewijze()
             {
                 CodeSollicitatiewijze = f.Random.ListItem(codeSollicitatiewijze)
-            });
-        }
-
-        return result;
-    }
-    
-    private static List<Taalbeheersing> GenerateTaalbeheersing(Faker f)
-    {
-        var taalbeheersingNiveaus = new List<int>{ 0, 1, 2, 3, 4, 8 };
-        var codeNiveauTaalbeheersingLezen = taalbeheersingNiveaus;
-        var codeNiveauTaalbeheersingLuisteren = taalbeheersingNiveaus;
-        var codeNiveauTaalbeheersingMondeling = taalbeheersingNiveaus;
-        var codeNiveauTaalbeheersingSchriftelijk = taalbeheersingNiveaus;
-
-        var result = new List<Taalbeheersing>();
-        for (int i = 0; i < new Random().Next(1, 3); i++)
-        {
-            result.Add(new Taalbeheersing()
-            {
-                CodeNiveauTaalbeheersingLezen = f.Random.ListItem(codeNiveauTaalbeheersingLezen),
-                CodeNiveauTaalbeheersingLuisteren = f.Random.ListItem(codeNiveauTaalbeheersingLuisteren),
-                CodeNiveauTaalbeheersingMondeling = f.Random.ListItem(codeNiveauTaalbeheersingMondeling),
-                CodeNiveauTaalbeheersingSchriftelijk = f.Random.ListItem(codeNiveauTaalbeheersingSchriftelijk),
-                CodeTaal = string.Join(", ", 
-                    TaalCodes.OrderBy(x => f.Random.Int())
-                        .Take(f.Random.Int(1, Math.Min(3, TaalCodes.Length))))
-            });
-        }
-
-        return result;
-    }
-    
-    private static List<Vakvaardigheid> GenerateVakvaardigheid(Faker f)
-    {
-        var result = new List<Vakvaardigheid>();
-        for (int i = 0; i < new Random().Next(1, 3); i++)
-        {
-            result.Add(new Vakvaardigheid()
-            {
-                Omschrijving = f.Lorem.Sentence(5, 10)
             });
         }
 

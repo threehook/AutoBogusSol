@@ -27,7 +27,7 @@ public class CommonFaker
         101, 102, 103, 104, 105, 106, 107, 2013, 2014, 2015, 2016, 2017, 2020, 2030, 47762, 47763, 47781, 47782, 47783, 47789
     };
     
-    public static readonly int[] NiveauOpleidingCodes = { 1, 2, 3, 4, 5, 9 };
+    public static readonly int[] NiveauOpleidingCodes = { 1, 2, 3, 4, 5, 6, 9 };
 
     public static readonly int[] IndicatieDiploma = { 0, 1, 2, 8 };
     
@@ -132,6 +132,54 @@ public class CommonFaker
         return result;
     }
 
+    public static List<Rijbewijs> GenerateRijbewijs(Faker f)
+    {
+        var rijbewijsCodes = new List<string> { "A", "A1", "A2", "AM", "B", "B+", "C1", "C", "D1", "D", "BE", "C1E", "CE", "D1E", "DE", "T" };    
+        var rijbewijsFaker = new Faker<Rijbewijs>()
+            .RuleFor(r => r.CodeSoortRijbewijs, f.Random.ListItem(rijbewijsCodes));
+        
+        return rijbewijsFaker.Generate(f.Random.Int(1, 5));
+    }    
+    
+    public static List<Taalbeheersing> GenerateTaalbeheersing(Faker f)
+    {
+        var taalbeheersingNiveaus = new List<int>{ 0, 1, 2, 3, 4, 8 };
+        var codeNiveauTaalbeheersingLezen = taalbeheersingNiveaus;
+        var codeNiveauTaalbeheersingLuisteren = taalbeheersingNiveaus;
+        var codeNiveauTaalbeheersingMondeling = taalbeheersingNiveaus;
+        var codeNiveauTaalbeheersingSchriftelijk = taalbeheersingNiveaus;
+
+        var result = new List<Taalbeheersing>();
+        for (int i = 0; i < new Random().Next(1, 3); i++)
+        {
+            result.Add(new Taalbeheersing()
+            {
+                CodeNiveauTaalbeheersingLezen = f.Random.ListItem(codeNiveauTaalbeheersingLezen),
+                CodeNiveauTaalbeheersingLuisteren = f.Random.ListItem(codeNiveauTaalbeheersingLuisteren),
+                CodeNiveauTaalbeheersingMondeling = f.Random.ListItem(codeNiveauTaalbeheersingMondeling),
+                CodeNiveauTaalbeheersingSchriftelijk = f.Random.ListItem(codeNiveauTaalbeheersingSchriftelijk),
+                CodeTaal = string.Join(", ", 
+                    TaalCodes.OrderBy(x => f.Random.Int())
+                        .Take(f.Random.Int(1, Math.Min(3, TaalCodes.Length))))
+            });
+        }
+
+        return result;
+    }
+    
+    public static List<Vakvaardigheid> GenerateVakvaardigheid(Faker f)
+    {
+        var result = new List<Vakvaardigheid>();
+        for (int i = 0; i < new Random().Next(1, 3); i++)
+        {
+            result.Add(new Vakvaardigheid()
+            {
+                Omschrijving = f.Lorem.Sentence(5, 10)
+            });
+        }
+
+        return result;
+    }
     
     public static Beroepsnaam GenerateBeroepsnaamGecodeerd(Faker f)
     {
@@ -155,6 +203,32 @@ public class CommonFaker
             }
         };
     }
+    
+    public static List<Contractvorm> GenerateContractvorm(Faker f)
+    {
+        var codeTypeArbeidscontractOptions = new List<string> { "O", "B" };
+        var codeTypeOvereenkomstOptions = new List<string> { "O1", "02", "03", "04" };
+        var properties = new List<Action<Contractvorm>>
+        {
+            c => c.CodeTypeArbeidscontract = f.PickRandom(codeTypeArbeidscontractOptions),
+            c => c.CodeTypeOvereenkomst = f.PickRandom(codeTypeOvereenkomstOptions)
+        };
+
+        var results = new List<Contractvorm>();
+
+        // Determine how many properties to enable (1 to all)
+        int count = f.Random.Int(1, properties.Count);
+
+        // Shuffle and take a random selection
+        foreach (var contractvorm  in f.Random.Shuffle(properties).Take(count))
+        {
+            var contract = new Contractvorm();
+            contractvorm(contract);
+            results.Add(contract);
+        }
+
+        return results;
+    }    
     
     public static Flexibiliteit GenerateFlexibiliteit(Faker f)
     {

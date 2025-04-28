@@ -6,6 +6,25 @@ namespace AutoBogusApp.DataGeneration;
 
 public class WerkzoekendeFaker
 {
+    public MpWerkzoekendeMatch FakeMpWerkzoekendeMatch()
+    {
+        var faker = new Faker<MpWerkzoekendeMatch>("nl")
+            .RuleFor(w => w.Arbeidsmarktkwalificatie, GenerateMpArbeidsmarktkwalificatie)
+            .RuleFor(w => w.Bemiddelingsberoep, GenerateBeroepsnaam)
+            .RuleFor(w => w.Contractvorm, GenerateContractvorm)
+            .RuleFor(w => w.Flexibiliteit, GenerateFlexibiliteit)
+            .RuleFor(w => w.IdWerkzoekende, f => f.Random.Uuid().ToString())
+            .RuleFor(w => w.IndicatieBeschikbaarheidContactgegevens, f => f.PickRandom(1, 2))
+            .RuleFor(v => v.IndicatieLdrRegistratie, f => f.Random.Int(1, 2))
+            .RuleFor(v => v.Mobiliteit, GenerateMobiliteit)
+            .RuleFor(v => v.Sector, f => GenerateSector(f, 3))
+            .RuleFor(v => v.Vervoermiddel, GenerateMpVervoermiddel)
+            .RuleFor(v => v.Voorkeursland, GenerateVoorkeursland)
+            .RuleFor(v => v.Werktijden, GenerateWerktijden);
+
+        return faker.Generate();
+    }      
+    
     public Werkzoekende FakeWerkzoekende()
     {
         var faker = new Faker<Werkzoekende>("nl")
@@ -29,7 +48,21 @@ public class WerkzoekendeFaker
 
         return faker.Generate();
     }  
-    
+
+    private static MpArbeidsmarktkwalificatie GenerateMpArbeidsmarktkwalificatie(Faker f)
+    {
+        return new MpArbeidsmarktkwalificatie()
+        {
+            CodeWerkEnDenkniveauWerkzoekende = f.Random.Int(0, 7),
+            Cursus = GenerateMpCursus(f),
+            Gedragscompetentie = GenerateGedragscompetentie(f),
+            Opleiding = GenerateMpOpleiding(f),
+            Rijbewijs = GenerateRijbewijs(f),
+            Taalbeheersing = GenerateTaalbeheersing(f),
+            Vakvaardigheid = GenerateVakvaardigheid(f),
+            Werkervaring = GenerateMpWerkervaring(f)
+        };
+    }    
     
     private static Arbeidsmarktkwalificatie GenerateArbeidsmarktkwalificatie(Faker f)
     {
@@ -40,10 +73,30 @@ public class WerkzoekendeFaker
             Gedragscompetentie = GenerateGedragscompetentie(f),
             Interesse = GenerateInteresse(f),
             Opleiding = GenerateOpleiding(f),
-
+            Rijbewijs = GenerateRijbewijs(f),
+            Taalbeheersing = GenerateTaalbeheersing(f),
+            Vakvaardigheid = GenerateVakvaardigheid(f),
+            Werkervaring = GenerateWerkervaring(f),
         };
     }
 
+    private static List<MpCursus> GenerateMpCursus(Faker f)
+    {
+        var length = f.Random.Int(min: 1, max: 3);
+        var cursusList = new List<MpCursus>();
+        for (int i = 0; i < length; i++)
+        {
+            var cursus = new MpCursus()
+            {
+                DatumCertificaat = GenerateDate(f),
+                NaamCursus = GenerateName(f, 3, 120)
+            };
+            cursusList.Add(cursus);
+        }
+        
+        return cursusList;
+    }    
+    
     private static List<Cursus> GenerateCursus(Faker f)
     {
         var length = f.Random.Int(min: 1, max: 3);
@@ -81,6 +134,28 @@ public class WerkzoekendeFaker
 
         return interesseList;
     } 
+
+    private static List<MpOpleiding> GenerateMpOpleiding(Faker f)
+    {
+        var length = f.Random.Int(min: 1, max: 3);
+        var opleidingList = new List<MpOpleiding>();
+        for (int i = 0; i < length; i++)
+        {
+            var opleiding = new MpOpleiding()
+            {
+                CodeNiveauOpleiding = f.PickRandom(NiveauOpleidingCodes),
+                DatumDiploma = GenerateDate(f),
+                IndicatieDiploma = f.PickRandom(IndicatieDiploma),
+                Opleidingsnaam = f.Random.Bool()
+                    ? GeneratOpleidingsnaamGecodeerd(f)
+                    : GenerateOpleidingsnaamOngecodeerd(f)
+            };
+            
+            opleidingList.Add(opleiding);
+        }
+
+        return opleidingList;
+    }    
     
     private static List<Opleiding> GenerateOpleiding(Faker f)
     {
@@ -188,6 +263,24 @@ public class WerkzoekendeFaker
         };
     }
 
+    private static List<MpVervoermiddel> GenerateMpVervoermiddel(Faker f)
+    {
+        var indicatieBeschikbaarVoorUitvoeringWerk = new List<int> { 0, 1, 2 };
+        var indicatieBeschikbaarVoorWoonWerkverkeer = new List<int> { 0, 1, 2 };
+        
+        var result = new List<MpVervoermiddel>();
+        for (int i = 0; i < new Random().Next(1, 3); i++)
+        {
+            result.Add(new MpVervoermiddel()
+            {
+                IndicatieBeschikbaarVoorUitvoeringWerk = f.Random.ListItem(indicatieBeschikbaarVoorUitvoeringWerk),
+                IndicatieBeschikbaarVoorWoonWerkverkeer = f.Random.ListItem(indicatieBeschikbaarVoorWoonWerkverkeer),
+            });
+        }
+
+        return result;
+    }
+    
     private static List<Voorkeursland> GenerateVoorkeursland(Faker f)
     {
         var length = f.Random.Int(min: 1, max: 3);
@@ -204,5 +297,41 @@ public class WerkzoekendeFaker
 
         return voorkeurslandList;
     }
+
+    private static List<MpWerkervaring> GenerateMpWerkervaring(Faker f)
+    {
+        var result = new List<MpWerkervaring>();
+        for (int i = 0; i < new Random().Next(1, 3); i++)
+        {
+            result.Add(new MpWerkervaring()
+            {
+                Beroep = f.Random.Bool() ? GenerateBeroepsnaamGecodeerd(f) : GenerateBeroepsnaamOngecodeerd(f),
+                DatumAanvangWerkzaamheden = GenerateDate(f),
+                DatumEindeWerkzaamheden = GenerateDate(f),
+                NaamOrganisatie = GenerateName(f,3, 70)
+            });
+        }
+
+        return result;
+    }    
+    
+    private static List<Werkervaring> GenerateWerkervaring(Faker f)
+    {
+        var result = new List<Werkervaring>();
+        for (int i = 0; i < new Random().Next(1, 3); i++)
+        {
+            result.Add(new Werkervaring()
+            {
+                Beroep = f.Random.Bool() ? GenerateBeroepsnaamGecodeerd(f) : GenerateBeroepsnaamOngecodeerd(f),
+                DatumAanvangWerkzaamheden = GenerateDate(f),
+                DatumEindeWerkzaamheden = GenerateDate(f),
+                NaamOrganisatie = GenerateName(f,3, 70),
+                ToelichtingWerkervaring = f.Lorem.Sentence()
+            });
+        }
+
+        return result;
+    }
+    
 }
 
