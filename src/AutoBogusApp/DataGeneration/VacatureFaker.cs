@@ -317,7 +317,7 @@ public class VacatureFaker
         {
             AanduidingBijHuisnummer = f.Random.String2(1, UpperCase),
             Huisletter = f.Random.String2(1, UpperCase),
-            Huisnummer = f.PickRandom(1, 1000),
+            Huisnummer = f.Random.Int(1, 1000),
             Huisnummertoevoeging = f.Random.String2(1, UpperCase),
             NaamOpenbareRuimte = GenerateName(f, 3, 80),
             Straatnaam = streetName.Length > 24 ? streetName[..24] : streetName,
@@ -332,7 +332,7 @@ public class VacatureFaker
     {
         return new Postbusadres()
         {
-            Postbusnummer = f.PickRandom(1000, 10000)
+            Postbusnummer = f.Random.Int(1000, 10000)
         };
     }
 
@@ -340,7 +340,7 @@ public class VacatureFaker
     {
         return new Antwoordnummeradres()
         {
-            Antwoordnummer = f.PickRandom(1000, 10000)
+            Antwoordnummer = f.Random.Int(1000, 10000)
         };
     }
 
