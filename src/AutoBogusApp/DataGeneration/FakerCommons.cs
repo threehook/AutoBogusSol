@@ -3,7 +3,7 @@ using AutoBogusApp.Vum;
 
 namespace AutoBogusApp.DataGeneration;
 
-public class CommonFaker
+public class FakerCommons
 {
     private const string Format = "yyyy-MM-dd";
     private const int DateMin = -100;
@@ -89,8 +89,8 @@ public class CommonFaker
 
         return $"{digits}{letters}";
     }
-    
-    public static List<Gedragscompetentie> GenerateGedragscompetentie(Faker f)
+
+    public static List<Gedragscompetentie> GenerateGedragscompetentie(Faker f, int maxItems)
     {
         var codeGedragscompetenties = new[]
         {
@@ -110,38 +110,44 @@ public class CommonFaker
             "Gedrevenheid en ambitie tonen", "Ondernemend en commercieel handelen", "Bedrijfsmatig handelen"
         };
 
-        var properties = new List<Action<Gedragscompetentie>>
-        {
-            c => c.CodeGedragscompetentie = f.Random.ArrayElement(codeGedragscompetenties),
-            c => c.CodeBeheersingGedragscompetentie = f.Random.ListItem(codeBeheersingGedragscompetentie),
-            c => c.OmschrijvingGedragscompetentie = f.Random.ArrayElement(omschrijvingGedragscompetentie)
-        };
-
+        var length = f.Random.Int(min: 1, max: maxItems);
         var result = new List<Gedragscompetentie>();
-
-        for (int i = 0; i < new Random().Next(1, 3); i++)
+        for (int i = 0; i < length; i++)
         {
-            var gedragscompetentie = new Gedragscompetentie();
-            foreach (var setProperty in properties)
+            var gedragscompetentie = new Gedragscompetentie()
             {
-                setProperty(gedragscompetentie); // Always set all properties
-            }
+                CodeGedragscompetentie = f.Random.ArrayElement(codeGedragscompetenties),
+                CodeBeheersingGedragscompetentie = f.Random.ListItem(codeBeheersingGedragscompetentie),
+                OmschrijvingGedragscompetentie = f.Random.ArrayElement(omschrijvingGedragscompetentie)
+            };
             result.Add(gedragscompetentie);
         }
-
+        
         return result;
     }
 
-    public static List<Rijbewijs> GenerateRijbewijs(Faker f)
+    public static List<Rijbewijs> GenerateRijbewijs(Faker f, int maxItems)
     {
-        var rijbewijsCodes = new List<string> { "A", "A1", "A2", "AM", "B", "B+", "C1", "C", "D1", "D", "BE", "C1E", "CE", "D1E", "DE", "T" };    
-        var rijbewijsFaker = new Faker<Rijbewijs>()
-            .RuleFor(r => r.CodeSoortRijbewijs, f.Random.ListItem(rijbewijsCodes));
-        
-        return rijbewijsFaker.Generate(f.Random.Int(1, 5));
-    }    
+        var length = f.Random.Int(min: 1, max: maxItems);
+        var rijbewijsList = new List<Rijbewijs>();
+        for (int i = 0; i < length; i++)
+        {
+            rijbewijsList.Add(GenerateRijbewijs(f));
+        }
+
+        return rijbewijsList;
+    }
+
+    private static Rijbewijs GenerateRijbewijs(Faker f)
+    {
+        var rijbewijsCodes = new List<string> { "A", "A1", "A2", "AM", "B", "B+", "C1", "C", "D1", "D", "BE", "C1E", "CE", "D1E", "DE", "T" };
+        return new Rijbewijs()
+        {
+            CodeSoortRijbewijs = f.PickRandom(rijbewijsCodes)
+        };
+    }
     
-    public static List<Taalbeheersing> GenerateTaalbeheersing(Faker f)
+    public static List<Taalbeheersing> GenerateTaalbeheersing(Faker f, int maxItems)
     {
         var taalbeheersingNiveaus = new List<int>{ 0, 1, 2, 3, 4, 8 };
         var codeNiveauTaalbeheersingLezen = taalbeheersingNiveaus;
@@ -149,8 +155,9 @@ public class CommonFaker
         var codeNiveauTaalbeheersingMondeling = taalbeheersingNiveaus;
         var codeNiveauTaalbeheersingSchriftelijk = taalbeheersingNiveaus;
 
+        var length = f.Random.Int(min: 1, max: maxItems);
         var result = new List<Taalbeheersing>();
-        for (int i = 0; i < new Random().Next(1, 3); i++)
+        for (int i = 0; i < length; i++)
         {
             result.Add(new Taalbeheersing()
             {
@@ -167,14 +174,15 @@ public class CommonFaker
         return result;
     }
     
-    public static List<Vakvaardigheid> GenerateVakvaardigheid(Faker f)
+    public static List<Vakvaardigheid> GenerateVakvaardigheid(Faker f, int maxItems)
     {
+        var length = f.Random.Int(min: 1, max: maxItems);
         var result = new List<Vakvaardigheid>();
-        for (int i = 0; i < new Random().Next(1, 3); i++)
+        for (int i = 0; i < length; i++)
         {
             result.Add(new Vakvaardigheid()
             {
-                Omschrijving = f.Lorem.Sentence(5, 10)
+                Omschrijving = f.Lorem.Sentence(15, 120)
             });
         }
 
@@ -204,32 +212,30 @@ public class CommonFaker
         };
     }
     
-    public static List<Contractvorm> GenerateContractvorm(Faker f)
+    public static List<Contractvorm> GenerateContractvorm(Faker f, int maxItems)
+    {
+        var length = f.Random.Int(min: 1, max: maxItems);
+        var contractvormList = new List<Contractvorm>();
+        for (int i = 0; i < length; i++)
+        {
+            contractvormList.Add(GenerateContractvorm(f));
+        }
+
+        return contractvormList;
+    }
+
+    private static Contractvorm GenerateContractvorm(Faker f)
     {
         var codeTypeArbeidscontractOptions = new List<string> { "O", "B" };
         var codeTypeOvereenkomstOptions = new List<string> { "O1", "02", "03", "04" };
-        var properties = new List<Action<Contractvorm>>
+
+        return new Contractvorm()
         {
-            c => c.CodeTypeArbeidscontract = f.PickRandom(codeTypeArbeidscontractOptions),
-            c => c.CodeTypeOvereenkomst = f.PickRandom(codeTypeOvereenkomstOptions)
+            CodeTypeArbeidscontract = f.PickRandom(codeTypeArbeidscontractOptions),
+            CodeTypeOvereenkomst = f.PickRandom(codeTypeOvereenkomstOptions)
         };
+    }
 
-        var results = new List<Contractvorm>();
-
-        // Determine how many properties to enable (1 to all)
-        int count = f.Random.Int(1, properties.Count);
-
-        // Shuffle and take a random selection
-        foreach (var contractvorm  in f.Random.Shuffle(properties).Take(count))
-        {
-            var contract = new Contractvorm();
-            contractvorm(contract);
-            results.Add(contract);
-        }
-
-        return results;
-    }    
-    
     public static Flexibiliteit GenerateFlexibiliteit(Faker f)
     {
         var flexibiliteit = new Flexibiliteit();
@@ -263,14 +269,15 @@ public class CommonFaker
         };
     }
     
-    public static List<Vervoermiddel> GenerateVervoermiddel(Faker f)
+    public static List<Vervoermiddel> GenerateVervoermiddel(Faker f, int maxItems)
     {
         var codeVervoermiddel = new List<int> { 1, 2, 3, 4, 5, 9 };
         var indicatieBeschikbaarVoorUitvoeringWerk = new List<int> { 0, 1, 2 };
         var indicatieBeschikbaarVoorWoonWerkverkeer = new List<int> { 0, 1, 2 };
         
+        var length = f.Random.Int(min: 1, max: maxItems);
         var result = new List<Vervoermiddel>();
-        for (int i = 0; i < new Random().Next(1, 3); i++)
+        for (int i = 0; i < length; i++)
         {
             result.Add(new Vervoermiddel()
             {
@@ -295,7 +302,7 @@ public class CommonFaker
         return webadresList;
     }
     
-    private static Webadres GenerateWebadres(Faker f)
+    public static Webadres GenerateWebadres(Faker f)
     {
         var webadres = new Webadres()
         {

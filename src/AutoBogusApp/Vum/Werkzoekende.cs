@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
 namespace AutoBogusApp.Vum
-
 {
     // MPWerkzoekendeMatch model
     public class MpWerkzoekendeMatch

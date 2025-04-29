@@ -2,6 +2,9 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AutoBogusApp.DataGeneration;
+// using AutoBogusApp.Providers;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BugusApp;
 
@@ -17,28 +20,27 @@ public static class JsonConfig
 
 public class Program
 {
-    // static void Main(string[] args)
-    // {
-    //     Faker f = new Faker();
-    //     var name = Generic.GenerateName(f, 3, 40);
-    //     Console.WriteLine(name);
-    // }
-    
     static void Main(string[] args)
     {
-        // VacatureFaker faker = new VacatureFaker();
-        // var vacature = faker.FakeVacature();
+        var builder = WebApplication.CreateBuilder(args);
+
+        // Register the chain providers
+        // builder.Services.AddScoped<IMatchProvider, RepoMatchProvider>();
+        // builder.Services.AddScoped<IMatchProvider, FakerMatchProvider>();
+        // builder.Services.AddScoped<IChainProvider, ChainProvider>();
         
-        // VacatureFaker faker = new VacatureFaker();
-        // var mpVacature = faker.FakeMpVacatureMatch();
         
-        WerkzoekendeFaker faker = new WerkzoekendeFaker();
-        var werkzoekende = faker.FakeWerkzoekende();        
+        VacatureFaker faker = new VacatureFaker();
+        var vacature = faker.FakeVacature();
+        
+        // WerkzoekendeFaker faker = new WerkzoekendeFaker();
+        //var werkzoekende = faker.FakeWerkzoekende();
+        // var werkzoekende = faker.FakeMpWerkzoekendeMatch();
         
         // Serialize to JSON
-        //string json = JsonSerializer.Serialize(vacature, JsonConfig.DefaultOptions);
+        string json = JsonSerializer.Serialize(vacature, JsonConfig.DefaultOptions);
         //string json = JsonSerializer.Serialize(mpVacature, JsonConfig.DefaultOptions);
-        string json = JsonSerializer.Serialize(werkzoekende, JsonConfig.DefaultOptions);
+        // string json = JsonSerializer.Serialize(werkzoekende, JsonConfig.DefaultOptions);
         // string json = JsonSerializer.Serialize(werkzoekende, JsonConfig.DefaultOptions);
         Console.WriteLine(json);
     }

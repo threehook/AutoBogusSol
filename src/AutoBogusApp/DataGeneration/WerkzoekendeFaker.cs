@@ -1,6 +1,6 @@
 ﻿using Bogus;
 using AutoBogusApp.Vum;
-using static AutoBogusApp.DataGeneration.CommonFaker;
+using static AutoBogusApp.DataGeneration.FakerCommons;
 
 namespace AutoBogusApp.DataGeneration;
 
@@ -11,14 +11,14 @@ public class WerkzoekendeFaker
         var faker = new Faker<MpWerkzoekendeMatch>("nl")
             .RuleFor(w => w.Arbeidsmarktkwalificatie, GenerateMpArbeidsmarktkwalificatie)
             .RuleFor(w => w.Bemiddelingsberoep, GenerateBeroepsnaam)
-            .RuleFor(w => w.Contractvorm, GenerateContractvorm)
+            .RuleFor(w => w.Contractvorm, f => GenerateContractvorm(f, 3))
             .RuleFor(w => w.Flexibiliteit, GenerateFlexibiliteit)
             .RuleFor(w => w.IdWerkzoekende, f => f.Random.Uuid().ToString())
             .RuleFor(w => w.IndicatieBeschikbaarheidContactgegevens, f => f.PickRandom(1, 2))
             .RuleFor(v => v.IndicatieLdrRegistratie, f => f.Random.Int(1, 2))
             .RuleFor(v => v.Mobiliteit, GenerateMobiliteit)
             .RuleFor(v => v.Sector, f => GenerateSector(f, 3))
-            .RuleFor(v => v.Vervoermiddel, GenerateMpVervoermiddel)
+            .RuleFor(v => v.Vervoermiddel, f => GenerateMpVervoermiddel(f, 3))
             .RuleFor(v => v.Voorkeursland, GenerateVoorkeursland)
             .RuleFor(v => v.Werktijden, GenerateWerktijden);
 
@@ -41,7 +41,7 @@ public class WerkzoekendeFaker
             .RuleFor(v => v.PersoonlijkePresentatie, f => f.Lorem.Sentence())
             .RuleFor(v => v.Sector, f => GenerateSector(f, 3))
             .RuleFor(v => v.Telefoonnummer, f => GenerateTelefoonnummer(f, 3))
-            .RuleFor(v => v.Vervoermiddel, GenerateVervoermiddel)
+            .RuleFor(v => v.Vervoermiddel, f => GenerateVervoermiddel(f, 3))
             .RuleFor(v => v.Voorkeursland, GenerateVoorkeursland)
             .RuleFor(v => v.Webadres, f => GenerateWebadres(f, 3))
             .RuleFor(v => v.Werktijden, GenerateWerktijden);
@@ -55,12 +55,12 @@ public class WerkzoekendeFaker
         {
             CodeWerkEnDenkniveauWerkzoekende = f.Random.Int(0, 7),
             Cursus = GenerateMpCursus(f),
-            Gedragscompetentie = GenerateGedragscompetentie(f),
+            Gedragscompetentie = GenerateGedragscompetentie(f, 3),
             Opleiding = GenerateMpOpleiding(f),
-            Rijbewijs = GenerateRijbewijs(f),
-            Taalbeheersing = GenerateTaalbeheersing(f),
-            Vakvaardigheid = GenerateVakvaardigheid(f),
-            Werkervaring = GenerateMpWerkervaring(f)
+            Rijbewijs = GenerateRijbewijs(f, 3),
+            Taalbeheersing = GenerateTaalbeheersing(f, 3),
+            Vakvaardigheid = GenerateVakvaardigheid(f, 3),
+            Werkervaring = GenerateMpWerkervaring(f, 3)
         };
     }    
     
@@ -70,13 +70,13 @@ public class WerkzoekendeFaker
         {
             CodeWerkEnDenkniveauWerkzoekende = f.Random.Int(0, 7),
             Cursus = GenerateCursus(f),
-            Gedragscompetentie = GenerateGedragscompetentie(f),
+            Gedragscompetentie = GenerateGedragscompetentie(f, 3),
             Interesse = GenerateInteresse(f),
             Opleiding = GenerateOpleiding(f),
-            Rijbewijs = GenerateRijbewijs(f),
-            Taalbeheersing = GenerateTaalbeheersing(f),
-            Vakvaardigheid = GenerateVakvaardigheid(f),
-            Werkervaring = GenerateWerkervaring(f),
+            Rijbewijs = GenerateRijbewijs(f, 3),
+            Taalbeheersing = GenerateTaalbeheersing(f, 3),
+            Vakvaardigheid = GenerateVakvaardigheid(f, 3),
+            Werkervaring = GenerateWerkervaring(f, 3),
         };
     }
 
@@ -203,7 +203,7 @@ public class WerkzoekendeFaker
             OpleidingsnaamOngecodeerd = new OpleidingsnaamOngecodeerd()
             {
                 NaamOpleidingOngecodeerd = GenerateName(f, 3, 120),
-                OmschrijvingOpleiding = f.Lorem.Sentence()
+                OmschrijvingOpleiding = f.Lorem.Sentence(15, 120)
             }
         };
     }
@@ -260,16 +260,18 @@ public class WerkzoekendeFaker
         {
             Bemiddelingspostcode = GeneratePostcode(f),
             MaximaleReisafstand = f.Random.Int(min: 0, max: 999),
+            MaximaleReistijd = f.Random.Int(min: 0, max: 999)
         };
     }
 
-    private static List<MpVervoermiddel> GenerateMpVervoermiddel(Faker f)
+    private static List<MpVervoermiddel> GenerateMpVervoermiddel(Faker f, int maxItems)
     {
         var indicatieBeschikbaarVoorUitvoeringWerk = new List<int> { 0, 1, 2 };
         var indicatieBeschikbaarVoorWoonWerkverkeer = new List<int> { 0, 1, 2 };
         
+        var length = f.Random.Int(min: 1, max: maxItems);
         var result = new List<MpVervoermiddel>();
-        for (int i = 0; i < new Random().Next(1, 3); i++)
+        for (int i = 0; i < length; i++)
         {
             result.Add(new MpVervoermiddel()
             {
@@ -298,10 +300,11 @@ public class WerkzoekendeFaker
         return voorkeurslandList;
     }
 
-    private static List<MpWerkervaring> GenerateMpWerkervaring(Faker f)
+    private static List<MpWerkervaring> GenerateMpWerkervaring(Faker f, int maxItems)
     {
+        var length = f.Random.Int(min: 1, max: maxItems);
         var result = new List<MpWerkervaring>();
-        for (int i = 0; i < new Random().Next(1, 3); i++)
+        for (int i = 0; i < length; i++)
         {
             result.Add(new MpWerkervaring()
             {
@@ -315,10 +318,11 @@ public class WerkzoekendeFaker
         return result;
     }    
     
-    private static List<Werkervaring> GenerateWerkervaring(Faker f)
+    private static List<Werkervaring> GenerateWerkervaring(Faker f, int maxItems)
     {
+        var length = f.Random.Int(min: 1, max: maxItems);
         var result = new List<Werkervaring>();
-        for (int i = 0; i < new Random().Next(1, 3); i++)
+        for (int i = 0; i < length; i++)
         {
             result.Add(new Werkervaring()
             {

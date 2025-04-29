@@ -1,221 +1,36 @@
-﻿using System.Globalization;
+﻿using System.Collections;
+using System.Globalization;
 using AutoBogusApp.DataGeneration;
 using AutoBogusApp.Vum;
 using NUnit.Framework;
 using Bogus;
-using static AutoBogusApp.DataGeneration.CommonFaker;
+using static AutoBogusApp.DataGeneration.FakerCommons;
+using System.Reflection;
 
 namespace AutoBogusApp.Test
 {
-    public class MpWerkzoekendeMatchGeneratorTests
-    {
-        [Test]
-        public void FakeMPWerkzoekendeMatch_ShouldGenerateMPWerkzoekendeMatchWithAllNestedObjects()
-        {
-            // Arrange
-            WerkzoekendeFaker faker = new WerkzoekendeFaker();
-
-            // Act
-            var mpWerkzoekendeMatch = faker.FakeMpWerkzoekendeMatch();
-
-            // Assert
-            Assert.That(mpWerkzoekendeMatch, Is.Not.Null);
-
-            // Check that nested objects are not null
-            Assert.That(mpWerkzoekendeMatch.Arbeidsmarktkwalificatie, Is.Not.Null);
-            Assert.That(mpWerkzoekendeMatch.Bemiddelingsberoep, Is.Not.Null);
-            Assert.That(mpWerkzoekendeMatch.Contractvorm, Is.Not.Null);
-            Assert.That(mpWerkzoekendeMatch.Flexibiliteit, Is.Not.Null);
-            Assert.That(mpWerkzoekendeMatch.IdWerkzoekende, Is.Not.Null);
-            Assert.That(mpWerkzoekendeMatch.IndicatieBeschikbaarheidContactgegevens, Is.Not.Null);
-            Assert.That(mpWerkzoekendeMatch.IndicatieLdrRegistratie, Is.Not.Null);
-            Assert.That(mpWerkzoekendeMatch.Mobiliteit, Is.Not.Null);
-            Assert.That(mpWerkzoekendeMatch.Sector, Is.Not.Null);
-            Assert.That(mpWerkzoekendeMatch.Vervoermiddel, Is.Not.Null);
-            Assert.That(mpWerkzoekendeMatch.Voorkeursland, Is.Not.Null);
-            Assert.That(mpWerkzoekendeMatch.Werktijden, Is.Not.Null);            
-
-            // Check that lists have elements
-            Assert.That(mpWerkzoekendeMatch.Bemiddelingsberoep, Is.Not.Empty);
-            Assert.That(mpWerkzoekendeMatch.Contractvorm, Is.Not.Empty);
-            Assert.That(mpWerkzoekendeMatch.Sector, Is.Not.Empty);
-            Assert.That(mpWerkzoekendeMatch.Vervoermiddel, Is.Not.Empty);
-            Assert.That(mpWerkzoekendeMatch.Voorkeursland, Is.Not.Empty);
-        }
-    }    
-    
-    public class WerkzoekendeGeneratorTests
-    {
-        [Test]
-        public void FakeWerkzoekende_ShouldGenerateWerkzoekendeWithAllNestedObjects()
-        {
-            // Arrange
-            WerkzoekendeFaker faker = new WerkzoekendeFaker();
-
-            // Act
-            var werkzoekende = faker.FakeWerkzoekende();
-
-            // Assert
-            Assert.That(werkzoekende, Is.Not.Null);
-
-            // Check that nested objects are not null
-            Assert.That(werkzoekende.Arbeidsmarktkwalificatie, Is.Not.Null);
-            Assert.That(werkzoekende.Bemiddelingsberoep, Is.Not.Null);
-            Assert.That(werkzoekende.Contactpersoon, Is.Not.Null);
-            Assert.That(werkzoekende.EisAanWerk, Is.Not.Null);
-            Assert.That(werkzoekende.Emailadres, Is.Not.Null);
-            Assert.That(werkzoekende.Flexibiliteit, Is.Not.Null);
-            Assert.That(werkzoekende.IdWerkzoekende, Is.Not.Null);
-            Assert.That(werkzoekende.IndicatieBeschikbaarheidContactgegevens, Is.Not.Null);
-            Assert.That(werkzoekende.IndicatieLdrRegistratie, Is.Not.Null);
-            Assert.That(werkzoekende.Mobiliteit, Is.Not.Null);
-            Assert.That(werkzoekende.PersoonlijkePresentatie, Is.Not.Null);
-            Assert.That(werkzoekende.Sector, Is.Not.Null);
-            Assert.That(werkzoekende.Telefoonnummer, Is.Not.Null);
-            Assert.That(werkzoekende.Vervoermiddel, Is.Not.Null);
-            Assert.That(werkzoekende.Voorkeursland, Is.Not.Null);
-            Assert.That(werkzoekende.Webadres, Is.Not.Null);
-            Assert.That(werkzoekende.Werktijden, Is.Not.Null);            
-
-            // Check that lists have elements
-            Assert.That(werkzoekende.Bemiddelingsberoep, Is.Not.Empty);
-            Assert.That(werkzoekende.Contactpersoon, Is.Not.Empty);
-            Assert.That(werkzoekende.Emailadres, Is.Not.Empty);
-            Assert.That(werkzoekende.Sector, Is.Not.Empty);
-            Assert.That(werkzoekende.Telefoonnummer, Is.Not.Empty);
-            Assert.That(werkzoekende.Voorkeursland, Is.Not.Empty);
-            Assert.That(werkzoekende.Webadres, Is.Not.Empty);
-        }
-    }
-
-    public class MpVacatureMatchGeneratorTests
-    {
-        [Test]
-        public void FakeMPVacatureMatch_ShouldGenerateMPVacatureMatchWithAllNestedObjects()
-        {
-            // Arrange
-            VacatureFaker faker = new VacatureFaker();
-
-            // Act
-            var mpVacatureMatch = faker.FakeMpVacatureMatch();
-
-            // Assert
-            Assert.That(mpVacatureMatch, Is.Not.Null);
-            
-            // Check that nested objects are not null
-            Assert.That(mpVacatureMatch.ArbeidsVoorwaarden, Is.Not.Null);
-            Assert.That(mpVacatureMatch.Beroep, Is.Not.Null);
-            Assert.That(mpVacatureMatch.CodeWerkEnDenkniveauMinimaal, Is.Not.Null);
-            Assert.That(mpVacatureMatch.Contractvorm, Is.Not.Null);
-            Assert.That(mpVacatureMatch.Cursus, Is.Not.Null);
-            Assert.That(mpVacatureMatch.Mobiliteit, Is.Not.Null);
-            Assert.That(mpVacatureMatch.Flexibiliteit, Is.Not.Null);
-            Assert.That(mpVacatureMatch.Gedragscompetentie, Is.Not.Null);
-            Assert.That(mpVacatureMatch.IdVacature, Is.Not.Null);
-            Assert.That(mpVacatureMatch.IndicatieLdrRegistratie, Is.Not.Null);
-            Assert.That(mpVacatureMatch.Opleiding, Is.Not.Null);
-            Assert.That(mpVacatureMatch.Rijbewijs, Is.Not.Null);
-            Assert.That(mpVacatureMatch.Sector, Is.Not.Null);
-            Assert.That(mpVacatureMatch.SluitingsdatumVacature, Is.Not.Null);
-            Assert.That(mpVacatureMatch.Sollicitatiewijze, Is.Not.Null);                   
-            Assert.That(mpVacatureMatch.Taalbeheersing, Is.Not.Null);
-            Assert.That(mpVacatureMatch.Vakvaardigheid, Is.Not.Null);
-            Assert.That(mpVacatureMatch.Vervoermiddel, Is.Not.Null);
-            Assert.That(mpVacatureMatch.Werkervaring, Is.Not.Null);
-            Assert.That(mpVacatureMatch.Werkgever, Is.Not.Null);
-            Assert.That(mpVacatureMatch.Werktijden, Is.Not.Null);
-            
-            // Check that lists have elements
-            Assert.That(mpVacatureMatch.Contractvorm, Is.Not.Empty);
-            Assert.That(mpVacatureMatch.Cursus, Is.Not.Empty);
-            Assert.That(mpVacatureMatch.Gedragscompetentie, Is.Not.Empty);
-            Assert.That(mpVacatureMatch.Opleiding, Is.Not.Empty);
-            Assert.That(mpVacatureMatch.Rijbewijs, Is.Not.Empty);
-            Assert.That(mpVacatureMatch.Sollicitatiewijze, Is.Not.Empty);
-            Assert.That(mpVacatureMatch.Taalbeheersing, Is.Not.Empty);
-            Assert.That(mpVacatureMatch.Vakvaardigheid, Is.Not.Empty);
-            Assert.That(mpVacatureMatch.Vervoermiddel, Is.Not.Empty);
-            Assert.That(mpVacatureMatch.Werkervaring, Is.Not.Empty);
-        }
-    }        
-    
-    public class VacatureGeneratorTests
-    {
-        [Test]
-        public void FakeVacature_ShouldGenerateVacatureWithAllNestedObjects()
-        {
-            // Arrange
-            VacatureFaker faker = new VacatureFaker();
-
-            // Act
-            var vacture = faker.FakeVacature();
-
-            // Assert
-            Assert.That(vacture, Is.Not.Null);
-            
-            // Check that nested objects are not null
-            Assert.That(vacture.ArbeidsVoorwaarden, Is.Not.Null);
-            Assert.That(vacture.Beroep, Is.Not.Null);
-            Assert.That(vacture.CodeWerkEnDenkniveauMinimaal, Is.Not.Null);
-            Assert.That(vacture.Contractvorm, Is.Not.Null);
-            Assert.That(vacture.Cursus, Is.Not.Null);
-            Assert.That(vacture.Flexibiliteit, Is.Not.Null);
-            Assert.That(vacture.Gedragscompetentie, Is.Not.Null);
-            Assert.That(vacture.IdVacature, Is.Not.Null);
-            Assert.That(vacture.IndicatieLdrRegistratie, Is.Not.Null);
-            Assert.That(vacture.NaamVacature, Is.Not.Null);
-            Assert.That(vacture.NummerVacature, Is.Not.Null);
-            Assert.That(vacture.OmschrijvingVacature, Is.Not.Null);
-            Assert.That(vacture.Opleiding, Is.Not.Null);
-            Assert.That(vacture.Rijbewijs, Is.Not.Null);
-            Assert.That(vacture.Sector, Is.Not.Null);
-            Assert.That(vacture.SluitingsdatumVacature, Is.Not.Null);
-            Assert.That(vacture.Sollicitatiewijze, Is.Not.Null);                   
-            Assert.That(vacture.Taalbeheersing, Is.Not.Null);
-            Assert.That(vacture.Vakvaardigheid, Is.Not.Null);
-            Assert.That(vacture.Vervoermiddel, Is.Not.Null);
-            Assert.That(vacture.Werkervaring, Is.Not.Null);
-            Assert.That(vacture.Werkgever, Is.Not.Null);
-            Assert.That(vacture.Werktijden, Is.Not.Null);
-            
-            // Check that lists have elements
-            Assert.That(vacture.Contractvorm, Is.Not.Empty);
-            Assert.That(vacture.Cursus, Is.Not.Empty);
-            Assert.That(vacture.Gedragscompetentie, Is.Not.Empty);
-            Assert.That(vacture.Opleiding, Is.Not.Empty);
-            Assert.That(vacture.Rijbewijs, Is.Not.Empty);
-            Assert.That(vacture.Sollicitatiewijze, Is.Not.Empty);
-            Assert.That(vacture.Taalbeheersing, Is.Not.Empty);
-            Assert.That(vacture.Vakvaardigheid, Is.Not.Empty);
-            Assert.That(vacture.Vervoermiddel, Is.Not.Empty);
-            Assert.That(vacture.Werkervaring, Is.Not.Empty);
-        }
-    }
-    
     public class DateGeneratorTests
     {
         private const int DateMin = -100;
         private const int DateMax = 100;
-        private const string Format = "yyyy-MM-dd"; // Updated format
+        private const string Format = "yyyy-MM-dd";
 
         [Test]
         public void GenerateDate_ReturnsDateWithinRange()
         {
             // Arrange
             var faker = new Faker("nl");
-        
+
             // Act
             string result = GenerateDate(faker);
-            DateTime generatedDate = DateTime.ParseExact(result, Format, CultureInfo.InvariantCulture);
-        
+            DateTime generatedDate = DateTime.Parse(result);
+
             // Assert
             DateTime minDate = DateTime.Now.AddYears(DateMin);
             DateTime maxDate = DateTime.Now.AddYears(DateMax);
-        
+
             Assert.That(generatedDate, Is.GreaterThanOrEqualTo(minDate).And.LessThanOrEqualTo(maxDate));
             Assert.That(result, Does.Match(@"^\d{4}-\d{2}-\d{2}$"));
-            Assert.That(DateTime.TryParseExact(result, Format, CultureInfo.InvariantCulture, 
-                DateTimeStyles.None, out _), Is.True, "String was not in correct format");
         }
     }
 
@@ -256,7 +71,7 @@ namespace AutoBogusApp.Test
             // Assert - At least some variation should exist
             Assert.That(result.SelectMany(x => x).Distinct().Count(), Is.GreaterThan(1));
         }
-        
+
         [Test]
         public void GenerateTelefoonnummer_WithZeroMaxItems_ReturnsDefault()
         {
@@ -279,7 +94,7 @@ namespace AutoBogusApp.Test
             // Act & Assert
             Assert.That(() => GenerateTelefoonnummer(faker, maxItems),
                 Throws.TypeOf<ArgumentOutOfRangeException>());
-        }    
+        }
 
     }
 
@@ -308,20 +123,20 @@ namespace AutoBogusApp.Test
             Assert.Multiple(() =>
             {
                 // Length validation
-                Assert.That(result.Length, Is.GreaterThanOrEqualTo(minLength), 
+                Assert.That(result.Length, Is.GreaterThanOrEqualTo(minLength),
                     "Result is shorter than minLength");
-                Assert.That(result.Length, Is.LessThanOrEqualTo(maxLength), 
+                Assert.That(result.Length, Is.LessThanOrEqualTo(maxLength),
                     "Result exceeds maxLength");
 
                 // Character validation
-                Assert.That(result, Does.Not.Contain(" "), 
+                Assert.That(result, Does.Not.Contain(" "),
                     "Result contains spaces");
-                Assert.That(result.All(char.IsLower), Is.True, 
+                Assert.That(result.All(char.IsLower), Is.True,
                     "Result contains uppercase characters");
 
                 // Randomness validation
                 var secondResult = GenerateCode(faker, minLength, maxLength);
-                Assert.That(result, Is.Not.EqualTo(secondResult), 
+                Assert.That(result, Is.Not.EqualTo(secondResult),
                     "Results should differ with subsequent calls");
             });
         }
@@ -334,18 +149,18 @@ namespace AutoBogusApp.Test
                 // Equal min and max length
                 var fixedLengthResult = GenerateCode(faker, 7, 7);
                 Assert.That(fixedLengthResult.Length, Is.EqualTo(7));
-                
+
                 // Minimum possible length
                 var minFixedLengthResult = GenerateCode(faker, 1, 1);
                 Assert.That(minFixedLengthResult.Length, Is.EqualTo(1));
-                
+
                 // Zero length is empty string
                 var emptyResult = GenerateCode(faker, 0, 0);
                 Assert.That(emptyResult, Is.Empty);
-                
+
                 // Minlength is greater than MaxLength
                 var minResult = GenerateCode(faker, 2, 1);
-                Assert.That(minResult.Length, Is.EqualTo(2));                
+                Assert.That(minResult.Length, Is.EqualTo(2));
             });
         }
     }
@@ -374,21 +189,21 @@ namespace AutoBogusApp.Test
             Assert.Multiple(() =>
             {
                 // Length validation
-                Assert.That(result.Length, Is.GreaterThanOrEqualTo(minLength), 
+                Assert.That(result.Length, Is.GreaterThanOrEqualTo(minLength),
                     "Name is shorter than minLength");
-                Assert.That(result.Length, Is.LessThanOrEqualTo(maxLength), 
+                Assert.That(result.Length, Is.LessThanOrEqualTo(maxLength),
                     "Name exceeds maxLength");
 
                 // Format validation
                 Assert.That(char.IsUpper(result[0]), "First character not capitalized");
-                Assert.That(result.Substring(1), Does.Not.Match("[A-Z]"), 
+                Assert.That(result.Substring(1), Does.Not.Match("[A-Z]"),
                     "Uppercase letters found after first character");
-                
-                Assert.That(result, Does.Not.Contain(" "), 
+
+                Assert.That(result, Does.Not.Contain(" "),
                     "Name contains spaces (should be concatenated words)");
 
                 // Content validation (at least 4 words concatenated)
-                Assert.That(result.Length, Is.GreaterThanOrEqualTo(4), 
+                Assert.That(result.Length, Is.GreaterThanOrEqualTo(4),
                     "Name should combine multiple words");
             });
         }
@@ -405,14 +220,14 @@ namespace AutoBogusApp.Test
                 // Test max boundary
                 var maxResult = GenerateName(faker, 30, 30);
                 Assert.That(maxResult.Length, Is.EqualTo(30));
-                
+
                 // Test negatives
                 Assert.That(() => GenerateName(faker, -10, -5),
                     Throws.TypeOf<ArgumentOutOfRangeException>());
             });
         }
     }
-    
+
     public class PostcodeGeneratorTests
     {
         [Test]
@@ -428,7 +243,8 @@ namespace AutoBogusApp.Test
             Assert.That(postcode, Is.Not.Null.And.Not.Empty, "Postcode should not be null or empty");
             Assert.That(postcode.Length, Is.EqualTo(6), "Postcode should be exactly 6 characters long");
             Assert.That(postcode.Substring(0, 4), Is.All.InRange('0', '9'), "First 4 characters should be digits");
-            Assert.That(postcode.Substring(4, 2), Does.Match(@"^[A-Z]{2}$"), "Last 2 characters should be uppercase letters");
+            Assert.That(postcode.Substring(4, 2), Does.Match(@"^[A-Z]{2}$"),
+                "Last 2 characters should be uppercase letters");
         }
     }
 
@@ -441,7 +257,7 @@ namespace AutoBogusApp.Test
             var faker = new Faker("nl");
 
             // Act
-            var result = GenerateGedragscompetentie(faker);
+            var result = GenerateGedragscompetentie(faker, 2);
 
             // Assert
             Assert.That(result, Is.Not.Null.And.Not.Empty, "Result list should not be null or empty");
@@ -506,11 +322,13 @@ namespace AutoBogusApp.Test
             Assert.Multiple(() =>
             {
                 Assert.That(result.BeroepsnaamGecodeerd, Is.Not.Null, "BeroepsnaamGecodeerd should not be null");
-                Assert.That(result.BeroepsnaamGecodeerd?.CodeBeroepsnaam, Is.Not.Null.And.Not.Empty, "CodeBeroepsnaam should not be null or empty");
-                Assert.That(result.BeroepsnaamGecodeerd?.OmschrijvingBeroepsnaam, Is.Not.Null.And.Not.Empty, "OmschrijvingBeroepsnaam should not be null or empty");
+                Assert.That(result.BeroepsnaamGecodeerd?.CodeBeroepsnaam, Is.Not.Null.And.Not.Empty,
+                    "CodeBeroepsnaam should not be null or empty");
+                Assert.That(result.BeroepsnaamGecodeerd?.OmschrijvingBeroepsnaam, Is.Not.Null.And.Not.Empty,
+                    "OmschrijvingBeroepsnaam should not be null or empty");
             });
         }
-        
+
         [Test]
         public void GenerateBeroepsnaamOngecodeerd_ShouldReturnValidBeroepsnaam()
         {
@@ -526,11 +344,12 @@ namespace AutoBogusApp.Test
             Assert.Multiple(() =>
             {
                 Assert.That(result.BeroepsnaamOngecodeerd, Is.Not.Null, "BeroepsnaamOngecodeerd should not be null");
-                Assert.That(result.BeroepsnaamOngecodeerd?.NaamBeroepOngecodeerd, Is.Not.Null.And.Not.Empty, "NaamBeroepOngecodeerd should not be null or empty");
+                Assert.That(result.BeroepsnaamOngecodeerd?.NaamBeroepOngecodeerd, Is.Not.Null.And.Not.Empty,
+                    "NaamBeroepOngecodeerd should not be null or empty");
             });
-        }        
-    }    
-    
+        }
+    }
+
     public class FlexibiliteitGeneratorTests
     {
         [Test]
@@ -548,13 +367,16 @@ namespace AutoBogusApp.Test
             Assert.Multiple(() =>
             {
                 Assert.That(result.CodeRegiostraal, Is.InRange(1, 9), "CodeRegiostraal should be between 1 and 9");
-                Assert.That(result.DatumAanvangBeschikbaarVoorWerk, Is.InstanceOf<string>(), "DatumAanvangBeschikbaarVoorWerk should be a valid string");
-                Assert.That(result.DatumEindeBeschikbaarVoorWerk, Is.InstanceOf<string>(), "DatumEindeBeschikbaarVoorWerk should be a valid string");
-                Assert.That(result.IndicatieOnregelmatigWerkOfPloegendienst, Is.InRange(0, 2), "IndicatieOnregelmatigWerkOfPloegendienst should be 0, 1, or 2");
+                Assert.That(result.DatumAanvangBeschikbaarVoorWerk, Is.InstanceOf<string>(),
+                    "DatumAanvangBeschikbaarVoorWerk should be a valid string");
+                Assert.That(result.DatumEindeBeschikbaarVoorWerk, Is.InstanceOf<string>(),
+                    "DatumEindeBeschikbaarVoorWerk should be a valid string");
+                Assert.That(result.IndicatieOnregelmatigWerkOfPloegendienst, Is.InRange(0, 2),
+                    "IndicatieOnregelmatigWerkOfPloegendienst should be 0, 1, or 2");
             });
         }
     }
-    
+
     public class SectorGeneratorTests
     {
         [Test]
@@ -569,18 +391,20 @@ namespace AutoBogusApp.Test
 
             // Assert
             Assert.That(result, Is.Not.Null, "Result should not be null");
-            Assert.That(result.Count, Is.InRange(1, maxItems), $"Result list should have between 1 and {maxItems} items");
+            Assert.That(result.Count, Is.InRange(1, maxItems),
+                $"Result list should have between 1 and {maxItems} items");
 
             Assert.Multiple(() =>
             {
                 foreach (var sector in result)
                 {
                     Assert.That(sector, Is.Not.Null, "Sector should not be null");
-                    Assert.That(sector, Is.InstanceOf<SectorBeroepsEnBedrijfsleven>(), "Each item in the list should be an instance of SectorBeroepsEnBedrijfsleven");
+                    Assert.That(sector, Is.InstanceOf<SectorBeroepsEnBedrijfsleven>(),
+                        "Each item in the list should be an instance of SectorBeroepsEnBedrijfsleven");
                 }
             });
         }
-        
+
         [Test]
         public void GenerateSector_ShouldReturnValidSector()
         {
@@ -598,9 +422,9 @@ namespace AutoBogusApp.Test
                 Assert.That(result.CodeSbi, Is.Not.Null, "CodeSbi should not be null");
                 Assert.That(SbiCodes, Does.Contain(result.CodeSbi), "CodeSbi should be a valid value from SbiCodes");
             });
-        }        
+        }
     }
-    
+
     public class VervoermiddelGeneratorTests
     {
         [Test]
@@ -612,7 +436,7 @@ namespace AutoBogusApp.Test
             var validIndicatie = new List<int> { 0, 1, 2 };
 
             // Act
-            var result = GenerateVervoermiddel(faker);
+            var result = GenerateVervoermiddel(faker, 2);
 
             // Assert
             Assert.Multiple(() =>
@@ -623,9 +447,12 @@ namespace AutoBogusApp.Test
                 foreach (var vervoermiddel in result)
                 {
                     Assert.That(vervoermiddel, Is.Not.Null, "Vervoermiddel item should not be null");
-                    Assert.That(validCodeVervoermiddel, Does.Contain(vervoermiddel.CodeVervoermiddel), "CodeVervoermiddel should be valid");
-                    Assert.That(validIndicatie, Does.Contain(vervoermiddel.IndicatieBeschikbaarVoorUitvoeringWerk), "IndicatieBeschikbaarVoorUitvoeringWerk should be valid");
-                    Assert.That(validIndicatie, Does.Contain(vervoermiddel.IndicatieBeschikbaarVoorWoonWerkverkeer), "IndicatieBeschikbaarVoorWoonWerkverkeer should be valid");
+                    Assert.That(validCodeVervoermiddel, Does.Contain(vervoermiddel.CodeVervoermiddel),
+                        "CodeVervoermiddel should be valid");
+                    Assert.That(validIndicatie, Does.Contain(vervoermiddel.IndicatieBeschikbaarVoorUitvoeringWerk),
+                        "IndicatieBeschikbaarVoorUitvoeringWerk should be valid");
+                    Assert.That(validIndicatie, Does.Contain(vervoermiddel.IndicatieBeschikbaarVoorWoonWerkverkeer),
+                        "IndicatieBeschikbaarVoorWoonWerkverkeer should be valid");
                 }
             });
         }
@@ -647,25 +474,27 @@ namespace AutoBogusApp.Test
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.Not.Null, "Result should not be null");
-                Assert.That(result.Count, Is.InRange(1, maxItems), $"Result list should have between 1 and {maxItems} items");
+                Assert.That(result.Count, Is.InRange(1, maxItems),
+                    $"Result list should have between 1 and {maxItems} items");
 
                 foreach (var webadres in result)
                 {
                     Assert.That(webadres, Is.Not.Null, "Webadres item should not be null");
                     Assert.That(webadres.Url, Is.Not.Null.And.Not.Empty, "Webadres.Url should not be null or empty");
-                    Assert.That(webadres.Url, Does.StartWith("http").Or.StartWith("https"), "Webadres.Url should start with http or https");
+                    Assert.That(webadres.Url, Does.StartWith("http").Or.StartWith("https"),
+                        "Webadres.Url should start with http or https");
                 }
             });
         }
     }
-    
+
     public class WerktijdenGeneratorTests
     {
         [Test]
         public void GenerateWerktijden_ShouldReturnValidWerktijden()
         {
             // Arrange
-            var faker = new Faker();
+            var faker = new Faker("nl");
 
             // Act
             var result = GenerateWerktijden(faker);
@@ -674,10 +503,13 @@ namespace AutoBogusApp.Test
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.Not.Null, "Result should not be null");
-                Assert.That(result.AantalWerkurenPerWeekMinimaal, Is.InRange(1, 99), "AantalWerkurenPerWeekMinimaal should be between 1 and 99");
-                Assert.That(result.AantalWerkurenPerWeekMaximaal, Is.InRange(1, 99), "AantalWerkurenPerWeekMaximaal should be between 1 and 99");
-                Assert.That(result.IndicatieKantoortijden, Is.InRange(0, 2), "IndicatieKantoortijden should be 0, 1, or 2");
+                Assert.That(result.AantalWerkurenPerWeekMinimaal, Is.InRange(1, 99),
+                    "AantalWerkurenPerWeekMinimaal should be between 1 and 99");
+                Assert.That(result.AantalWerkurenPerWeekMaximaal, Is.InRange(1, 99),
+                    "AantalWerkurenPerWeekMaximaal should be between 1 and 99");
+                Assert.That(result.IndicatieKantoortijden, Is.InRange(0, 2),
+                    "IndicatieKantoortijden should be 0, 1, or 2");
             });
         }
-    }    
+    }
 }

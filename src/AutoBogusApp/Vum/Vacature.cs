@@ -47,7 +47,7 @@ namespace AutoBogusApp.Vum
         public string? SluitingsdatumVacature { get; set; }
 
         [JsonPropertyName("sollicitatiewijze")]
-        public List<Sollicitatiewijze>? Sollicitatiewijze { get; set; }
+        public List<MpSollicitatiewijze>? Sollicitatiewijze { get; set; }
 
         [JsonPropertyName("taalbeheersing")]
         public List<Taalbeheersing>? Taalbeheersing { get; set; }
@@ -156,6 +156,13 @@ namespace AutoBogusApp.Vum
         public string? SalarisIndicatie { get; set; }
     }
 
+    // MPSollicitatiewijze model
+    public class MpSollicitatiewijze
+    {
+        [JsonPropertyName("codeSollicitatiewijze")]
+        public string? CodeSollicitatiewijze { get; set; }
+    }    
+    
     // Sollicitatiewijze model
     public class Sollicitatiewijze
     {
@@ -183,8 +190,6 @@ namespace AutoBogusApp.Vum
         
         [JsonPropertyName("webadres")]
         public List<Webadres>? Webadres { get; set; }
-        
-        public List<AdresHouding>? GetAdresHouding() => AdresHouding;
     }
 
     // AdresHouding model
@@ -201,8 +206,6 @@ namespace AutoBogusApp.Vum
 
         [JsonPropertyName("datumEindeAdres")]
         public string? DatumEindeAdres { get; set; }
-
-        public AdresHoudingAdres? GetAdres() => Adres;
     }
 
     // AdresHoudingAdres model
