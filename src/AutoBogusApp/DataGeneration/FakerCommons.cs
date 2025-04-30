@@ -5,31 +5,25 @@ namespace AutoBogusApp.DataGeneration;
 
 public class FakerCommons
 {
+    public const string UpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static readonly string[] OpleidingCodes = [
+        "101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116", "117", "118", "119", "120"
+    ];
+    public static readonly int[] NiveauOpleidingCodes = [ 1, 2, 3, 4, 5, 6, 9 ];
+    public static readonly int[] IndicatieDiploma = [ 0, 1, 2, 8 ];
+
+    private static readonly int[] SbiCodes = [
+        101, 102, 103, 104, 105, 106, 107, 2013, 2014, 2015, 2016, 2017, 2020, 2030, 47762, 47763, 47781, 47782, 47783, 47789
+    ];
     private const string Format = "yyyy-MM-dd";
     private const int DateMin = -100;
     private const int DateMax = 100;
-    private const string LowerCase = "abcdefghijklmnopqrstuvwxyz";
-    public const string UpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    
-    public static readonly string[] BeroepCodes = {
+    private static readonly string[] BeroepCodes = [
         "101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "124", "125", "129", "134", "138", "140", "141"
-    };    
-    
-    public static readonly string[] OpleidingCodes = {
-        "101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116", "117", "118", "119", "120"
-    };
-
-    public static readonly string[] TaalCodes = {
-        "ara", "ces", "deu", "eng", "fra", "kur", "mal", "nep", "nld", "nor", "por", "ron", "som", "spa", "srp", "swe", "tuk", "tur", "ukr", "zul"  
-    };
-    
-    public static readonly int[] SbiCodes = {
-        101, 102, 103, 104, 105, 106, 107, 2013, 2014, 2015, 2016, 2017, 2020, 2030, 47762, 47763, 47781, 47782, 47783, 47789
-    };
-    
-    public static readonly int[] NiveauOpleidingCodes = { 1, 2, 3, 4, 5, 6, 9 };
-
-    public static readonly int[] IndicatieDiploma = { 0, 1, 2, 8 };
+    ];
+    private static readonly string[] TaalCodes = [
+        "ara", "ces", "deu", "eng", "fra", "kur", "mal", "nep", "nld", "nor", "por", "ron", "som", "spa", "srp", "swe", "tuk", "tur", "ukr", "zul"
+    ];
     
     public static string GenerateDate(Faker f)
     {

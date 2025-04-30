@@ -32,7 +32,7 @@ public class Program
         
         VacatureFaker faker = new VacatureFaker();
         //var vacature = faker.FakeVacature();
-        var vacature = faker.FakeMpVacatureMatch();
+        var vacature = faker.FakeVacature();
         
         // WerkzoekendeFaker faker = new WerkzoekendeFaker();
         //var werkzoekende = faker.FakeWerkzoekende();

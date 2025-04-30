@@ -27,7 +27,7 @@ namespace AutoBogusApp.Vum
         public int? IndicatieLdrRegistratie { get; set; }
 
         [JsonPropertyName("mobiliteit")]
-        public Mobiliteit Mobiliteit { get; set; }
+        public required Mobiliteit Mobiliteit { get; set; }
 
         [JsonPropertyName("sector")]
         public List<SectorBeroepsEnBedrijfsleven>? Sector { get; set; }
